@@ -7,6 +7,7 @@
             "App\\": "App/",
             "Models\\": "App/Models/",
             "Controllers\\": "App/Controllers/",
+            "Utils\\": "App/Utils",
             "Lib\\": "lib/"
         }
     },
