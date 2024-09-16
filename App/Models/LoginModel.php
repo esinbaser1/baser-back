@@ -3,19 +3,23 @@
 namespace Models;
 
 use App\Database;
+use Utils\AuthUtils;
 use Utils\Token;
 
 class LoginModel
 {
     protected $db;
     protected $token;
+    protected $authUtils;
 
     public function __construct()
     {
         $database = new Database();
         $this->db = $database->getConnection();
         $this->token = new Token();
+        $this->authUtils = new AuthUtils(); 
     }
+
 
     public function getUser()
     {
@@ -82,9 +86,7 @@ class LoginModel
     
     public function logout()
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-        $token = $data['token'] ?? null;
+        $token = $this->authUtils->extractTokenFromHeaders(); 
 
         if ($token) {
             try {
@@ -101,4 +103,6 @@ class LoginModel
             return ["success" => false, "message" => "Token manquant."];
         }
     }
+
+    
 }

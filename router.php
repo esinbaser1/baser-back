@@ -19,13 +19,18 @@ switch ($action) {
         $response = $loginController->login();
         break;
 
-        case 'logout':
-            $response = $loginController->logout();
-            break;
-        
-    case 'admin':
-        $authMiddleware->verifyAccess('admin');
+    case 'logout':
+        $response = $loginController->logout();
         break;
+
+        case 'admin':
+            $authResult = $authMiddleware->verifyAccess('admin');
+            if ($authResult !== null) {
+                $response = $authResult;  // si l'accès est refusé, renvoyer le message d'erreur
+            } else {
+                $response = ["success" => true, "message" => "Access granted to admin."];
+            }
+            break;
 
     case 'socialNetwork':
         $authResult = $authMiddleware->verifyAccess('admin');
