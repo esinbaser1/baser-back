@@ -19,15 +19,19 @@ switch ($action) {
         $response = $loginController->login();
         break;
 
+        case 'logout':
+            $response = $loginController->logout();
+            break;
+        
     case 'admin':
         $authMiddleware->verifyAccess('admin');
         break;
 
     case 'socialNetwork':
         $authResult = $authMiddleware->verifyAccess('admin');
-        if ($authResult !== null) { //Si $authResult contient une erreur (c'est-à-dire qu'il est non nul), cette erreur est assignée à $response
+        if ($authResult !== null) {
             $response = $authResult;
-        } else { // Si la vérification réussit, on continue avec l'exécution normale
+        } else {
             $response = $socialNetworkController->getSocialNetworks();
         }
         break;

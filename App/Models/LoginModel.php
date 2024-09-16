@@ -79,19 +79,26 @@ class LoginModel
             return null;
         }
     }
-
-    public function logout($userId)
+    
+    public function logout()
     {
-        try {
-            $request = "DELETE FROM session WHERE user_id = ?";
-            $pdo = $this->db->prepare($request);
-            $pdo->execute([$userId]);
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
+        $token = $data['token'] ?? null;
 
-            return ["success" => true, "message" => "Déconnexion réussie"];
+        if ($token) {
+            try {
+                $request = "DELETE FROM session WHERE token = ?";
+                $pdo = $this->db->prepare($request);
+                $pdo->execute([$token]);
 
-        } catch (\PDOException $e) {
-            error_log("Erreur lors de la déconnexion : " . $e->getMessage());
-            return ["success" => false, "message" => "Une erreur s'est produite lors de la déconnexion"];
+                return ["success" => true, "message" => "Déconnexion réussie."];
+            } catch (\PDOException $e) {
+                error_log("Erreur lors de la déconnexion : " . $e->getMessage());
+                return ["success" => false, "message" => "Une erreur s'est produite lors de la déconnexion."];
+            }
+        } else {
+            return ["success" => false, "message" => "Token manquant."];
         }
     }
 }
