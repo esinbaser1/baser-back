@@ -7,7 +7,7 @@ use Models\UserModel;
 $userModel = new UserModel();
 
 // Créer un nouvel utilisateur
-$response = $userModel->createUser('hokablese@gmail.com', 'hokablese');
+$response = $userModel->createUser('esin@gmail.com', 'esin');
 
 // Afficher le résultat
 if ($response['success']) {

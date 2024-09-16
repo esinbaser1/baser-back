@@ -3,7 +3,6 @@
 namespace Utils;
 
 use App\Database;
-
 use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
@@ -25,19 +24,20 @@ class Token
             $request = "SELECT * FROM session WHERE token = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$token]);
-
+    
             // Récupération de la session
             $session = $pdo->fetch(\PDO::FETCH_ASSOC);
-
+    
             if ($session) {
                 $currentTime = new DateTime();
                 $expireTime = new DateTime($session['expires_at']);
-
+    
                 // Vérification de l'expiration du token
                 if ($expireTime <= $currentTime) {
+                    error_log("Le token est expiré.");
                     return ["success" => false, "message" => "Token expiré ou invalide"];
                 }
-
+    
                 // Retourner les informations du token et de l'utilisateur
                 return [
                     "success" => true,
@@ -46,7 +46,8 @@ class Token
                     "user_id" => $session['user_id'] // Retourne l'ID utilisateur pour identifier qui est connecté
                 ];
             } else {
-                return ["success" => false, "message" => "TToken expiré ou invalide"];
+                error_log("Aucune session trouvée pour ce token.");
+                return ["success" => false, "message" => "Token expiré ou invalide"];
             }
         } catch (\PDOException $e) {
             error_log("Erreur lors de la vérification du token: " . $e->getMessage());
@@ -54,10 +55,7 @@ class Token
             return ["success" => false, "message" => "Une erreur s'est produite lors de la vérification du token"];
         }
     }
-
-
     
-
     public function generateToken()
     {
         return bin2hex(random_bytes(32));
@@ -80,4 +78,5 @@ class Token
 
         return $formatter->format($date);
     }
+
 }

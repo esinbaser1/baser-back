@@ -2,5 +2,14 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+
 # URL rewriting for signup
 RewriteRule ^login$ index.php?action=login [L,QSA]
+
+# URL rewriting for signup
+RewriteRule ^admin$ index.php?action=admin [L,QSA]
+
+# URL rewriting for signup
+RewriteRule ^logout$ index.php?action=logout [L,QSA]
+
+RewriteRule ^socialNetwork$ index.php?action=socialNetwork [L,QSA]

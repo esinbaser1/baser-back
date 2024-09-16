@@ -18,4 +18,15 @@ class LoginController
         $result = $this->loginModel->getUser();
         return $result;
     }
+
+    public function getUserRole($userId)
+    {
+        $user = $this->loginModel->getUserById($userId);
+        return $user ? $user['role'] : null;
+    }
+    
+    public function logout($userId)
+    {
+        return $this->loginModel->logout($userId);
+    }
 }

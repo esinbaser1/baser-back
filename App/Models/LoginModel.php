@@ -30,7 +30,7 @@ class LoginModel
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return ["success" => false, "message" => "Email invalide."];
+            return ["success" => false, "message" => "Identifiants incorrects."];
         }
 
         try {
@@ -56,7 +56,7 @@ class LoginModel
                     "token" => $token,
                 ];
             } else {
-                return ["success" => false, "message" => "Email ou mot de passe incorrect"];
+                return ["success" => false, "message" => "Identifiants incorrects."];
             }
         } catch (\PDOException $e) {
             error_log("Erreur lors de la tentative de connexion : " . $e->getMessage());
@@ -73,9 +73,25 @@ class LoginModel
             $pdo->execute([$userId]);
 
             return $pdo->fetch(\PDO::FETCH_ASSOC);
+            
         } catch (\PDOException $e) {
             error_log("Erreur lors de la recherche d'un utilisateur par son ID : " . $e->getMessage());
             return null;
+        }
+    }
+
+    public function logout($userId)
+    {
+        try {
+            $request = "DELETE FROM session WHERE user_id = ?";
+            $pdo = $this->db->prepare($request);
+            $pdo->execute([$userId]);
+
+            return ["success" => true, "message" => "Déconnexion réussie"];
+
+        } catch (\PDOException $e) {
+            error_log("Erreur lors de la déconnexion : " . $e->getMessage());
+            return ["success" => false, "message" => "Une erreur s'est produite lors de la déconnexion"];
         }
     }
 }

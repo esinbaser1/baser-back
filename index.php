@@ -6,22 +6,20 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json");
 header("X-Content-Type-Options: nosniff");
 header("X-Frame-Options: DENY");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self';");
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') 
-{
+// Si la requête est de type OPTIONS, répondre avec 200 et quitter
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
 const IMG = "assets/img/";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') 
-{
+// Autoriser uniquement les méthodes POST et GET
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
     require_once "router.php";
-}
-
-else 
-{
+} else {
     http_response_code(405);
     echo json_encode(["success" => false, "message" => "Method not allowed"]);
     exit();
