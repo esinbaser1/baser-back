@@ -7,8 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Utils\\' => array($baseDir . '/App/Utils'),
+    'Models\\ContentManagement\\' => array($baseDir . '/App/Models/ContentManagement'),
     'Models\\' => array($baseDir . '/App/Models'),
     'Lib\\' => array($baseDir . '/lib'),
+    'Controllers\\ContentManagement\\' => array($baseDir . '/App/Controllers/ContentManagement'),
     'Controllers\\' => array($baseDir . '/App/Controllers'),
     'App\\' => array($baseDir . '/App'),
 );

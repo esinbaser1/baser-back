@@ -8,7 +8,9 @@
             "Models\\": "App/Models/",
             "Controllers\\": "App/Controllers/",
             "Utils\\": "App/Utils",
-            "Lib\\": "lib/"
+            "Lib\\": "lib/",
+            "Controllers\\ContentManagement\\": "App/Controllers/ContentManagement/",
+            "Models\\ContentManagement\\": "App/Models/ContentManagement/"
         }
     },
     "authors": [

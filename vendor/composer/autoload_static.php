@@ -13,6 +13,7 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         ),
         'M' => 
         array (
+            'Models\\ContentManagement\\' => 25,
             'Models\\' => 7,
         ),
         'L' => 
@@ -21,6 +22,7 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         ),
         'C' => 
         array (
+            'Controllers\\ContentManagement\\' => 30,
             'Controllers\\' => 12,
         ),
         'A' => 
@@ -34,6 +36,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         array (
             0 => __DIR__ . '/../..' . '/App/Utils',
         ),
+        'Models\\ContentManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Models/ContentManagement',
+        ),
         'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Models',
@@ -41,6 +47,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'Lib\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib',
+        ),
+        'Controllers\\ContentManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Controllers/ContentManagement',
         ),
         'Controllers\\' => 
         array (
