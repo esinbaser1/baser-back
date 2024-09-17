@@ -42,7 +42,7 @@ class AddContentModel
                 'status_id' => $status
             ];
     
-            return ["success" => true, "message" => "Contenu ajouté avec succès!!", "content" => $newContent];
+            return ["success" => true, "message" => "Contenu ajouté avec succès!", "content" => $newContent];
     
         } 
         catch (\PDOException $e) 
