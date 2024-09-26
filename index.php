@@ -1,6 +1,6 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *"); // a changer
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json");
@@ -18,7 +18,7 @@ const IMG = "assets/img/";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
     require_once "router.php";
 } else {
-    http_response_code(405);
+    http_response_code(405); // Méthode non autorisée
     echo json_encode(["success" => false, "message" => "Method not allowed"]);
     exit();
 }

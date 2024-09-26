@@ -3,24 +3,21 @@
 namespace Models;
 
 use App\Database;
-use Utils\AuthUtils;
 use Utils\Token;
 
 class LoginModel
 {
     protected $db;
     protected $token;
-    protected $authUtils;
 
     public function __construct()
     {
         $database = new Database();
         $this->db = $database->getConnection();
-        $this->token = new Token();
-        $this->authUtils = new AuthUtils(); 
+        $this->token = new Token();  // Utiliser la classe Token pour gérer JWT
     }
 
-
+    // Méthode pour gérer la connexion de l'utilisateur et générer un JWT
     public function getUser()
     {
         $input = file_get_contents("php://input");
@@ -45,30 +42,26 @@ class LoginModel
             $user = $pdo->fetch(\PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                $token = $this->token->generateToken();
-                $tokenExpireAt = $this->token->formatDate('+30 days');
-
-                $request = "INSERT INTO session (user_id, token, expires_at) VALUES (?, ?, ?)";
-                $pdo = $this->db->prepare($request);
-                $pdo->execute([$user['id'], $token, $tokenExpireAt]);
+                // Générer un JWT pour l'utilisateur avec son ID et rôle
+                $token = $this->token->generateToken($user['id'], $user['role']);
 
                 return [
                     "success" => true,
                     "message" => "Connexion réussie.",
                     "role" => $user['role'],
                     "user_id" => $user['id'],
-                    "token" => $token,
+                    "token" => $token,  // Retourner le token JWT au client
                 ];
             } else {
                 return ["success" => false, "message" => "Identifiants incorrects."];
             }
         } catch (\PDOException $e) {
             error_log("Erreur lors de la tentative de connexion : " . $e->getMessage());
-            
             return ["success" => false, "message" => "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard."];
         }
     }
 
+    // Récupérer l'utilisateur par son ID
     public function getUserById($userId)
     {
         try {
@@ -83,26 +76,12 @@ class LoginModel
             return null;
         }
     }
-    
+
+    // Déconnexion (facultative avec JWT)
     public function logout()
     {
-        $token = $this->authUtils->extractTokenFromHeaders(); 
-
-        if ($token) {
-            try {
-                $request = "DELETE FROM session WHERE token = ?";
-                $pdo = $this->db->prepare($request);
-                $pdo->execute([$token]);
-
-                return ["success" => true, "message" => "Déconnexion réussie."];
-            } catch (\PDOException $e) {
-                error_log("Erreur lors de la déconnexion : " . $e->getMessage());
-                return ["success" => false, "message" => "Une erreur s'est produite lors de la déconnexion."];
-            }
-        } else {
-            return ["success" => false, "message" => "Token manquant."];
-        }
+        // Avec JWT, il n'y a pas besoin de gérer la déconnexion côté serveur
+        // Le client peut simplement supprimer le token côté client (localStorage/cookie)
+        return ["success" => true, "message" => "Déconnexion réussie."];
     }
-
-    
 }

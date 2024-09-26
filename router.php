@@ -10,25 +10,27 @@ use Controllers\DisplaySectionController;
 use Controllers\DisplayStatusController;
 use Controllers\LoginController;
 use Controllers\SocialNetworkController;
-
 use Utils\AuthUtils;
 
+// Initialisation des contrôleurs
 $content = new DisplayContentController();
-$updateContent = new UpdateContentController;
+$updateContent = new UpdateContentController();
 $addContent = new AddContentController();
 $deleteContent = new DeleteContentController();
-
 
 $section = new DisplaySectionController();
 $status = new DisplayStatusController();
 
-
 $loginController = new LoginController();
 $socialNetworkController = new SocialNetworkController();
+
+// Initialisation de l'authentification JWT (middleware)
 $authMiddleware = new AuthUtils();
 
+// Récupération de l'action à exécuter
 $action = $_REQUEST['action'] ?? null;
 $response = ["success" => false, "message" => "Action non trouvée"];
+
 
 switch ($action) {
 
@@ -43,9 +45,9 @@ switch ($action) {
     case 'admin':
         $authResult = $authMiddleware->verifyAccess('admin');
         if ($authResult !== null) {
-            $response = $authResult;  // si l'accès est refusé, renvoyer le message d'erreur
+            $response = $authResult;
         } else {
-            $response = ["success" => true, "message" => "Access granted to admin."];
+            $response = ["success" => true, "role" => "admin"];
         }
         break;
 
@@ -58,12 +60,17 @@ switch ($action) {
         }
         break;
 
-    case 'content':
-        $response = $content->getContents();
+    case 'addContent':
+        $authResult = $authMiddleware->verifyAccess('admin');  // vérification admin
+        if ($authResult !== null) {  // si pas d'accès
+            $response = $authResult;  // retourne l'erreur, comme un 401
+        } else {
+            $response = $addContent->addContents();  // sinon, ajoute le contenu
+        }
         break;
 
-    case 'addContent':
-        $response = $addContent->addContents();
+    case 'content':
+        $response = $content->getContents();
         break;
 
     case 'section':
@@ -84,11 +91,21 @@ switch ($action) {
         break;
 
     case 'updateContent':
-        $response = $updateContent->updateContent();
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $updateContent->updateContent();
+        }
         break;
 
     case 'deleteContent':
-        $response = $deleteContent->deleteContents();
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $deleteContent->deleteContents();
+        }
         break;
 
     default:
@@ -97,5 +114,6 @@ switch ($action) {
         break;
 }
 
+// Retourner la réponse en JSON
 header('Content-Type: application/json');
 echo json_encode($response);
