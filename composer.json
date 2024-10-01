@@ -10,7 +10,9 @@
             "Utils\\": "App/Utils",
             "Lib\\": "lib/",
             "Controllers\\ContentManagement\\": "App/Controllers/ContentManagement/",
-            "Models\\ContentManagement\\": "App/Models/ContentManagement/"
+            "Models\\ContentManagement\\": "App/Models/ContentManagement/",
+            "Models\\ImageManagement\\": "App/Models/ImageManagement/",
+            "Controllers\\ImageManagement\\": "App/Controllers/ImageManagement/"
         }
     },
     "authors": [

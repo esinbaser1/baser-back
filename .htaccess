@@ -34,5 +34,5 @@ RewriteRule ^section$ index.php?action=section [L,QSA]
 # URL rewriting to retrieve status
 RewriteRule ^status$ index.php?action=status [L,QSA]
 
-
-RewriteRule ^socialNetwork$ index.php?action=socialNetwork [L,QSA]
+# URL rewriting to add new image
+RewriteRule ^addImage$ index.php?action=addImage [L,QSA]

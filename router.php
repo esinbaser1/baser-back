@@ -8,6 +8,7 @@ use Controllers\ContentManagement\DisplayContentController;
 use Controllers\ContentManagement\UpdateContentController;
 use Controllers\DisplaySectionController;
 use Controllers\DisplayStatusController;
+use Controllers\ImageManagement\AddImageController;
 use Controllers\LoginController;
 use Controllers\SocialNetworkController;
 use Utils\AuthUtils;
@@ -17,6 +18,9 @@ $content = new DisplayContentController();
 $updateContent = new UpdateContentController();
 $addContent = new AddContentController();
 $deleteContent = new DeleteContentController();
+
+
+$addImage = new AddImageController();
 
 $section = new DisplaySectionController();
 $status = new DisplayStatusController();
@@ -107,6 +111,16 @@ switch ($action) {
             $response = $deleteContent->deleteContents();
         }
         break;
+
+    case "addImage":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+        $response = $addImage->addImages();
+        }
+    break;
+
 
     default:
         http_response_code(404);

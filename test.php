@@ -1,12 +1,12 @@
 <?php
 
-// $secretKey = bin2hex(random_bytes(32));
-// echo $secretKey;
+$secretKey = bin2hex(random_bytes(32));
+echo $secretKey;
 
-$data = "Hello, World!";
+// $data = "Hello, World!";
 
-$encoded = base64_encode($data);
-// echo $encoded;  // SGVsbG8sIFdvcmxkIQ==
+// $encoded = base64_encode($data);
+// // echo $encoded;  // SGVsbG8sIFdvcmxkIQ==
 
-$decoded = base64_decode($encoded);
-echo $decoded;  // Hello, World!
+// $decoded = base64_decode($encoded);
+// echo $decoded;  // Hello, World!

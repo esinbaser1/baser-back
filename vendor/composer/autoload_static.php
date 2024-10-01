@@ -29,6 +29,7 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         ),
         'M' => 
         array (
+            'Models\\ImageManagement\\' => 23,
             'Models\\ContentManagement\\' => 25,
             'Models\\' => 7,
         ),
@@ -50,6 +51,7 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         ),
         'C' => 
         array (
+            'Controllers\\ImageManagement\\' => 28,
             'Controllers\\ContentManagement\\' => 30,
             'Controllers\\' => 12,
         ),
@@ -80,6 +82,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'Models\\ImageManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Models/ImageManagement',
+        ),
         'Models\\ContentManagement\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Models/ContentManagement',
@@ -103,6 +109,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Controllers\\ImageManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Controllers/ImageManagement',
         ),
         'Controllers\\ContentManagement\\' => 
         array (

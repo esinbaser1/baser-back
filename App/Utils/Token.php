@@ -20,7 +20,7 @@ class Token
     public function generateToken($userId, $userRole)
     {
         $issuedAt = time();
-        $expirationTime = $issuedAt + 3600; // Le token expire après 1 heure
+        $expirationTime = $issuedAt + (7 * 86400); // Le token expire après 7 jours
 
         $payload = [
             'iat' => $issuedAt,              // Heure à laquelle le token est émis
