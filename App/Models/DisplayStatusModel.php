@@ -26,7 +26,6 @@ class DisplayStatusModel
         }
         catch(\PDOException $e)
         {
-            error_log("Erreur lors de la récupération des données: " . $e->getMessage());
             return ["success" => false, "message" => "Erreur de base de données"];
         }
     }

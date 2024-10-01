@@ -9,26 +9,36 @@ use Controllers\ContentManagement\UpdateContentController;
 use Controllers\DisplaySectionController;
 use Controllers\DisplayStatusController;
 use Controllers\ImageManagement\AddImageController;
+use Controllers\ImageManagement\DeleteImageController;
+use Controllers\ImageManagement\DisplayImageController;
+use Controllers\ImageManagement\UpdateImageController;
 use Controllers\LoginController;
-use Controllers\SocialNetworkController;
 use Utils\AuthUtils;
 
-// Initialisation des contrôleurs
+// Initialisation des contrôleurs -------------------------
+
+// Content
 $content = new DisplayContentController();
 $updateContent = new UpdateContentController();
 $addContent = new AddContentController();
 $deleteContent = new DeleteContentController();
 
-
+// Image
+$image = new DisplayImageController();
 $addImage = new AddImageController();
+$updateImage = new UpdateImageController();
+$deleteImage = new DeleteImageController();
 
+// Section
 $section = new DisplaySectionController();
+
+// Status
 $status = new DisplayStatusController();
 
+// Login
 $loginController = new LoginController();
-$socialNetworkController = new SocialNetworkController();
 
-// Initialisation de l'authentification JWT (middleware)
+// Initialisation de l'authentification JWT 
 $authMiddleware = new AuthUtils();
 
 // Récupération de l'action à exécuter
@@ -37,7 +47,6 @@ $response = ["success" => false, "message" => "Action non trouvée"];
 
 
 switch ($action) {
-
     case 'login':
         $response = $loginController->login();
         break;
@@ -55,12 +64,17 @@ switch ($action) {
         }
         break;
 
-    case 'socialNetwork':
-        $authResult = $authMiddleware->verifyAccess('admin');
-        if ($authResult !== null) {
-            $response = $authResult;
+    // Content
+    case 'content':
+        $response = $content->getContents();
+        break;
+
+    case 'contentById':
+        if (isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $response = $updateContent->getContentById($id);
         } else {
-            $response = $socialNetworkController->getSocialNetworks();
+            $response = ["success" => false, "message" => "ID non fourni"];
         }
         break;
 
@@ -70,27 +84,6 @@ switch ($action) {
             $response = $authResult;  // retourne l'erreur, comme un 401
         } else {
             $response = $addContent->addContents();  // sinon, ajoute le contenu
-        }
-        break;
-
-    case 'content':
-        $response = $content->getContents();
-        break;
-
-    case 'section':
-        $response = $section->getSections();
-        break;
-
-    case 'status':
-        $response = $status->getStatus();
-        break;
-
-    case 'contentById':
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $response = $updateContent->getContentById($id);
-        } else {
-            $response = ["success" => false, "message" => "ID non fourni"];
         }
         break;
 
@@ -111,16 +104,47 @@ switch ($action) {
             $response = $deleteContent->deleteContents();
         }
         break;
+    
+    // Section
+    case 'section':
+        $response = $section->getSections();
+        break;
+
+    // Status
+    case 'status':
+        $response = $status->getStatus();
+        break;
+
+    // Image
+    case "image":
+        $response = $image->getImages();
+    break;
+
+    case 'imageById':
+        if (isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $response = $updateImage->getImageById($id);
+        } else {
+            $response = ["success" => false, "message" => "ID non fourni"];
+        }
+        break;
 
     case "addImage":
         $authResult = $authMiddleware->verifyAccess('admin');
         if ($authResult !== null) {
             $response = $authResult;
         } else {
-        $response = $addImage->addImages();
+            $response = $addImage->addImages();
         }
-    break;
+        break;
 
+    case "updateImage":
+        $response = $updateImage->updateImage();
+        break;
+
+    case "deleteImage":
+        $response = $deleteImage->deleteImages();
+        break;
 
     default:
         http_response_code(404);

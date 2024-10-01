@@ -23,7 +23,8 @@ class AddContentModel
         $section = isset($data['section_id']) ? intval($data['section_id']) : null;
         $status = isset($data['status_id']) ? intval($data['status_id']) : null;
     
-        if (empty($content) || empty($section) || empty($status)) {
+        if (empty($content) || empty($section) || empty($status)) 
+        {
             return ["success" => false, "message" => "Veuillez compléter tous les champs."];
         }
     
@@ -47,10 +48,7 @@ class AddContentModel
         } 
         catch (\PDOException $e) 
         {
-            error_log("Error when creating content: " . $e->getMessage());
             return ["success" => false, "message" => "Database error: " . $e->getMessage()];
         }
     }
-    
 }
-

@@ -20,24 +20,29 @@ class DeleteContentModel
 
         $id = $data['id'] ?? null;
     
-        if (empty($id)) {
+        if (empty($id)) 
+        {
             return ["success" => false, "message" => "Id du contenu manquant."];
         }
     
-        try {
+        try 
+        {
             $request = "DELETE FROM content WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
     
-            if ($pdo->rowCount() > 0) {
+            if ($pdo->rowCount() > 0) 
+            {
                 return ["success" => true, "message" => "Contenu supprimé avec succès."];
-            } else {
+            } 
+            else 
+            {
                 return ["success" => false, "message" => "Contenu introuvable."];
             }
-        } catch (\PDOException $e) {
-            error_log("Erreur lors de la suppression du contenu: " . $e->getMessage());
+        } 
+        catch (\PDOException $e) 
+        {
             return ["success" => false, "message" => "Erreur de base de données"];
         }
     }
-    
 }

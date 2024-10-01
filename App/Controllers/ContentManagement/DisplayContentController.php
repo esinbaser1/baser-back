@@ -6,15 +6,15 @@ use Models\ContentManagement\DisplayContentModel;
 
 class DisplayContentController
 {
-    protected $content;
+    protected $data;
 
     public function __construct()
     {
-        $this->content = new DisplayContentModel();
+        $this->data = new DisplayContentModel();
     }
 
     public function getContents()
     {
-        return $this->content->getContent();
+        return $this->data->getContent();
     }
 }
