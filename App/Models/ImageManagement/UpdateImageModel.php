@@ -29,7 +29,7 @@ class UpdateImageModel
 
             if ($image) 
             {
-                return ["success" => true, "image" => $image];
+                return ["success" => true, "images" => $image];
             } 
             else 
             {
@@ -158,13 +158,7 @@ class UpdateImageModel
             $pdo = $this->db->prepare($request);
             $pdo->execute([$imageName, $newWebpFileName, $productSlug, $section, $id]);
 
-            return ["success" => true, "message" => "Image mise à jour avec succès!", "image" => [
-                'id' => $id,
-                'name' => $imageName,
-                'path' => $newWebpFileName,
-                'slug' => $productSlug,
-                'section_id' => $section
-            ]];
+            return ["success" => true, "message" => "Image mise à jour avec succès!"];
         } 
         catch (\PDOException $e) 
         {

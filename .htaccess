@@ -46,7 +46,7 @@ RewriteRule ^status$ index.php?action=status [L,QSA]
 RewriteRule ^image$ index.php?action=image [L,QSA]
 
 # URL rewriting to retrieve image
-RewriteRule ^imageById$ index.php?action=imageById [L,QSA]
+RewriteRule ^imageById/([0-9]+)$ index.php?action=imageById&id=$1  [L,QSA]
 
 # URL rewriting to add new image
 RewriteRule ^addImage$ index.php?action=addImage [L,QSA]

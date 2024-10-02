@@ -103,16 +103,7 @@ class AddImageModel
             $pdo = $this->db->prepare($updateRequest);
             $pdo->execute([$newWebpFileName, $imageId]);
 
-            // Retour des informations de l'image ajoutée
-            $newContent = [
-                'id' => $imageId,
-                'name' => $imageName,
-                'path' => $newWebpFileName,
-                'slug' => $productSlug,
-                'section_id' => $section
-            ];
-
-            return ["success" => true, "message" => "Contenu ajouté avec succès!", "content" => $newContent];
+            return ["success" => true, "message" => "Image ajouté avec succès!"];
         } 
         catch (\PDOException $e) 
         {
