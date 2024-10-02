@@ -73,7 +73,7 @@ class UpdateContentModel
             $pdo->execute([$id]);
             $content = $pdo->fetch(\PDO::FETCH_ASSOC);
 
-            return ["success" => true, "contents" => $content];
+            return ["success" => true, "content" => $content];
         } 
         catch (\PDOException $e) 
         {

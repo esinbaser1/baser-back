@@ -6,20 +6,20 @@ use Models\ContentManagement\UpdateContentModel;
 
 class UpdateContentController
 {
-    protected $updateContent;
+    protected $data;
 
     public function __construct()
     {
-        $this->updateContent = new UpdateContentModel();
+        $this->data = new UpdateContentModel();
     }
 
     public function updateContent()
     {
-        return $this->updateContent->updateContent();
+        return $this->data->updateContent();
     }
 
     public function getContentById($id)
     {
-        return $this->updateContent->getContentById($id);
+        return $this->data->getContentById($id);
     }
 }

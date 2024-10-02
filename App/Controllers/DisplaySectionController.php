@@ -6,15 +6,15 @@ use Models\DisplaySectionModel;
 
 class DisplaySectionController
 {
-    protected $section;
+    protected $data;
 
     public function __construct()
     {
-        $this->section = new DisplaySectionModel();
+        $this->data = new DisplaySectionModel();
     }
 
     public function getSections()
     {
-        return $this->section->getSection();
+        return $this->data->getSection();
     }
 }

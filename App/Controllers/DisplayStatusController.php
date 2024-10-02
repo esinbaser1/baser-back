@@ -6,15 +6,15 @@ use Models\DisplayStatusModel;
 
 class DisplayStatusController
 {
-    protected $status;
+    protected $data;
 
     public function __construct()
     {
-        $this->status = new DisplayStatusModel();
+        $this->data = new DisplayStatusModel();
     }
 
     public function getStatus()
     {
-        return $this->status->getStatus();
+        return $this->data->getStatus();
     }
 }

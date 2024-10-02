@@ -6,15 +6,15 @@ use Models\ContentManagement\AddContentModel;
 
 class AddContentController
 {
-    protected $content;
+    protected $data;
 
     public function __construct()
     {
-        $this->content = new AddContentModel();
+        $this->data = new AddContentModel();
     }
 
     public function addContents()
     {
-        return $this->content->addContent();
+        return $this->data->addContent();
     }
 }

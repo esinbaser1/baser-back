@@ -36,14 +36,14 @@ class AddContentModel
     
             $contentId = $this->db->lastInsertId();
             
-            // $newContent = [
-            //     'id' => $contentId,
-            //     'content' => $content,
-            //     'section_id' => $section,
-            //     'status_id' => $status
-            // ];
+            $newContent = [
+                'id' => $contentId,
+                'content' => $content,
+                'section_id' => $section,
+                'status_id' => $status
+            ];
     
-            return ["success" => true, "message" => "Contenu ajouté avec succès!"];
+            return ["success" => true, "message" => "Contenu ajouté avec succès!", "content" => $newContent];
     
         } 
         catch (\PDOException $e) 

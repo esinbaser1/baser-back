@@ -46,7 +46,7 @@ class DeleteImageModel
     
         if (empty($id)) 
         {
-            return ["success" => false, "message" => "Id de l'image manquant."];
+            return ["success" => false, "message" => "Id manquant."];
         }
 
         // Récupérer le chemin de l'image à supprimer

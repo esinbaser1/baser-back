@@ -6,15 +6,15 @@ use Models\ContentManagement\DeleteContentModel;
 
 class DeleteContentController
 {
-    protected $deleteContentModel;
+    protected $data;
 
     public function __construct()
     {
-        $this->deleteContentModel = new DeleteContentModel();
+        $this->data = new DeleteContentModel();
     }
 
     public function deleteContents()
     {
-        return $this->deleteContentModel->deleteContent();
+        return $this->data->deleteContent();
     }
 }

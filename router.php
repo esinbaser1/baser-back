@@ -13,6 +13,10 @@ use Controllers\ImageManagement\DeleteImageController;
 use Controllers\ImageManagement\DisplayImageController;
 use Controllers\ImageManagement\UpdateImageController;
 use Controllers\LoginController;
+use Controllers\SocialNetworkManagement\AddSocialNetworkController;
+use Controllers\SocialNetworkManagement\DeleteSocialNetworkController;
+use Controllers\SocialNetworkManagement\DisplaySocialNetworkController;
+use Controllers\SocialNetworkManagement\UpdateSocialNetworkController;
 use Utils\AuthUtils;
 
 // Initialisation des contrôleurs -------------------------
@@ -28,6 +32,13 @@ $image = new DisplayImageController();
 $addImage = new AddImageController();
 $updateImage = new UpdateImageController();
 $deleteImage = new DeleteImageController();
+
+// Social Network
+
+$socialNetwork = new DisplaySocialNetworkController();
+$addSocialNetwork = new AddSocialNetworkController();
+$updateSocialNetwork = new UpdateSocialNetworkController();
+$deleteSocialNetwork = new DeleteSocialNetworkController();
 
 // Section
 $section = new DisplaySectionController();
@@ -139,12 +150,65 @@ switch ($action) {
         break;
 
     case "updateImage":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
         $response = $updateImage->updateImage();
+        }
         break;
 
     case "deleteImage":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
         $response = $deleteImage->deleteImages();
+        }
         break;
+
+    // Social Network
+    case "socialNetwork":
+        $response = $socialNetwork->getSocialNetwork();
+    break;
+
+    case 'socialNetworkById':
+        if (isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $response = $updateSocialNetwork->getSocialNetworkById($id);
+        } else {
+            $response = ["success" => false, "message" => "ID non fourni"];
+        }
+        break;
+
+    
+        case "addSocialNetwork":
+            $authResult = $authMiddleware->verifyAccess('admin');
+            if ($authResult !== null) {
+                $response = $authResult;
+            } else {
+                $response = $addSocialNetwork->addSocialNetwork();
+            }
+            break;
+    
+        case "updateSocialNetwork":
+            $authResult = $authMiddleware->verifyAccess('admin');
+            if ($authResult !== null) {
+                $response = $authResult;
+            } else {
+            $response = $updateSocialNetwork->updateSocialNetwork();
+            }
+            break;
+    
+        case "deleteSocialNetwork":
+            $authResult = $authMiddleware->verifyAccess('admin');
+            if ($authResult !== null) {
+                $response = $authResult;
+            } else {
+            $response = $deleteSocialNetwork->deleteSocialNetwork();
+            }
+            break;
+    
 
     default:
         http_response_code(404);

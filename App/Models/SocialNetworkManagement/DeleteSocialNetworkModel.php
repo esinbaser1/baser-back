@@ -1,9 +1,9 @@
 <?php
-namespace Models\ContentManagement;
+namespace Models\SocialNetworkManagement;
 
 use App\Database;
 
-class DeleteContentModel
+class DeleteSocialNetworkModel
 {
     protected $db;
 
@@ -13,7 +13,7 @@ class DeleteContentModel
         $this->db = $database->getConnection();
     }
 
-    public function deleteContent()
+    public function deleteSocialNetwork()
     {
         $input = file_get_contents("php://input");
         $data = json_decode($input, true);
@@ -27,17 +27,17 @@ class DeleteContentModel
     
         try 
         {
-            $request = "DELETE FROM content WHERE id = ?";
+            $request = "DELETE FROM social_network WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
     
             if ($pdo->rowCount() > 0) 
             {
-                return ["success" => true, "message" => "Contenu supprimé avec succès."];
+                return ["success" => true, "message" => "Réseau social supprimé avec succès."];
             } 
             else 
             {
-                return ["success" => false, "message" => "Contenu introuvable."];
+                return ["success" => false, "message" => "Réseau social introuvable."];
             }
         } 
         catch (\PDOException $e) 

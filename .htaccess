@@ -8,12 +8,12 @@ RewriteRule ^login$ index.php?action=login [L,QSA]
 # URL rewriting for logout
 RewriteRule ^logout$ index.php?action=logout [L,QSA]
 
-# -----------------------------------
+# ADMIN -----------------------------------
 
 # URL rewriting for admin access
 RewriteRule ^admin$ index.php?action=admin [L,QSA]
 
-# -----------------------------------
+# CONTENT -----------------------------------
 
 # URL rewriting to retrieve content
 RewriteRule ^content$ index.php?action=content [L,QSA]
@@ -30,17 +30,17 @@ RewriteRule ^updateContent$ index.php?action=updateContent [L,QSA]
 # URL rewriting to delete content
 RewriteRule ^deleteContent$ index.php?action=deleteContent [L,QSA]
 
-# -----------------------------------
+# SECTION -----------------------------------
 
 # URL rewriting to retrieve section
 RewriteRule ^section$ index.php?action=section [L,QSA]
 
-# -----------------------------------
+# STATUS -----------------------------------
 
 # URL rewriting to retrieve status
 RewriteRule ^status$ index.php?action=status [L,QSA]
 
-# -----------------------------------
+# IMAGE -----------------------------------
 
 # URL rewriting to retrieve image
 RewriteRule ^image$ index.php?action=image [L,QSA]
@@ -56,3 +56,20 @@ RewriteRule ^updateImage$ index.php?action=updateImage [L,QSA]
 
 # URL rewriting to delete image
 RewriteRule ^deleteImage$ index.php?action=deleteImage [L,QSA]
+
+# SOCIAL NETWORK -----------------------------------
+
+# URL rewriting to retrieve social network
+RewriteRule ^socialNetwork$ index.php?action=socialNetwork [L,QSA]
+
+# URL rewriting to retrieve social network
+RewriteRule ^socialNetworkById/([0-9]+)$ index.php?action=socialNetworkById&id=$1  [L,QSA]
+
+# URL rewriting to add new social network
+RewriteRule ^addSocialNetwork$ index.php?action=addSocialNetwork [L,QSA]
+
+# URL rewriting to update social network
+RewriteRule ^updateSocialNetwork$ index.php?action=updateSocialNetwork [L,QSA]
+
+# URL rewriting to delete social network
+RewriteRule ^deleteSocialNetwork$ index.php?action=deleteSocialNetwork [L,QSA]

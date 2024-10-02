@@ -6,20 +6,20 @@ use Models\LoginModel;
 
 class LoginController
 {
-    protected $loginModel;
+    protected $data;
 
     public function __construct()
     {
-        $this->loginModel = new LoginModel();
+        $this->data = new LoginModel();
     }
 
     public function login()
     {
-        return $this->loginModel->getUser();
+        return $this->data->getUser();
     }
 
     public function logout()
     {
-        return $this->loginModel->logout();
+        return $this->data->logout();
     }
 }
