@@ -30,8 +30,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'M' => 
         array (
             'Models\\SocialNetworkManagement\\' => 31,
+            'Models\\InformationContactManagement\\' => 36,
             'Models\\ImageManagement\\' => 23,
             'Models\\ContentManagement\\' => 25,
+            'Models\\ContactManagement\\' => 25,
             'Models\\' => 7,
         ),
         'L' => 
@@ -53,8 +55,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'C' => 
         array (
             'Controllers\\SocialNetworkManagement\\' => 36,
+            'Controllers\\InformationContactManagement\\' => 41,
             'Controllers\\ImageManagement\\' => 28,
             'Controllers\\ContentManagement\\' => 30,
+            'Controllers\\ContactManagement\\' => 30,
             'Controllers\\' => 12,
         ),
         'A' => 
@@ -88,6 +92,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         array (
             0 => __DIR__ . '/../..' . '/App/Models/SocialNetworkManagement',
         ),
+        'Models\\InformationContactManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Models/InformationContactManagement',
+        ),
         'Models\\ImageManagement\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Models/ImageManagement',
@@ -95,6 +103,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'Models\\ContentManagement\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Models/ContentManagement',
+        ),
+        'Models\\ContactManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Models/ContactManagement',
         ),
         'Models\\' => 
         array (
@@ -120,6 +132,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         array (
             0 => __DIR__ . '/../..' . '/App/Controllers/SocialNetworkManagement',
         ),
+        'Controllers\\InformationContactManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Controllers/InformationContactManagement',
+        ),
         'Controllers\\ImageManagement\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Controllers/ImageManagement',
@@ -127,6 +143,10 @@ class ComposerStaticInit0b1e2a1edcacd6de52192509def1812d
         'Controllers\\ContentManagement\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App/Controllers/ContentManagement',
+        ),
+        'Controllers\\ContactManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App/Controllers/ContactManagement',
         ),
         'Controllers\\' => 
         array (

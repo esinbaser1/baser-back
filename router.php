@@ -2,6 +2,11 @@
 
 require_once('vendor/autoload.php');
 
+use Controllers\ContactManagement\AddContactController;
+use Controllers\ContactManagement\DeleteContactController;
+use Controllers\ContactManagement\DisplayContactController;
+use Controllers\ContactManagement\DisplayContactStatusController;
+use Controllers\ContactManagement\DisplayContactTypeOfProjectController;
 use Controllers\ContentManagement\AddContentController;
 use Controllers\ContentManagement\DeleteContentController;
 use Controllers\ContentManagement\DisplayContentController;
@@ -12,6 +17,10 @@ use Controllers\ImageManagement\AddImageController;
 use Controllers\ImageManagement\DeleteImageController;
 use Controllers\ImageManagement\DisplayImageController;
 use Controllers\ImageManagement\UpdateImageController;
+use Controllers\InformationContactManagement\AddInformationContactController;
+use Controllers\InformationContactManagement\DeleteInformationContactController;
+use Controllers\InformationContactManagement\DisplayInformationContactController;
+use Controllers\InformationContactManagement\UpdateInformationContactController;
 use Controllers\LoginController;
 use Controllers\SocialNetworkManagement\AddSocialNetworkController;
 use Controllers\SocialNetworkManagement\DeleteSocialNetworkController;
@@ -39,6 +48,21 @@ $socialNetwork = new DisplaySocialNetworkController();
 $addSocialNetwork = new AddSocialNetworkController();
 $updateSocialNetwork = new UpdateSocialNetworkController();
 $deleteSocialNetwork = new DeleteSocialNetworkController();
+
+// Information contact
+
+$information = new DisplayInformationContactController();
+$addInformation = new AddInformationContactController();
+$updateInformation = new UpdateInformationContactController();
+$deleteInformation = new DeleteInformationContactController();
+
+// Contact
+
+$contact = new DisplayContactController();
+$contactStatus = new DisplayContactStatusController();
+$contactTypeOfProject = new DisplayContactTypeOfProjectController();
+$addContact = new AddContactController();
+$deleteContact = new DeleteContactController();
 
 // Section
 $section = new DisplaySectionController();
@@ -208,6 +232,71 @@ switch ($action) {
             $response = $deleteSocialNetwork->deleteSocialNetwork();
             }
             break;
+
+        // Information contact 
+
+        case "information":
+            $response = $information->getInformationContact();
+        break;
+    
+        case 'informationById':
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                $response = $updateInformation->getInformationContactById($id);
+            } else {
+                $response = ["success" => false, "message" => "ID non fourni"];
+            }
+            break;
+    
+            case "addInformation":
+                $authResult = $authMiddleware->verifyAccess('admin');
+                if ($authResult !== null) {
+                    $response = $authResult;
+                } else {
+                    $response = $addInformation->addInformationContact();
+                }
+                break;
+        
+            case "updateInformation":
+                $authResult = $authMiddleware->verifyAccess('admin');
+                if ($authResult !== null) {
+                    $response = $authResult;
+                } else {
+                $response = $updateInformation->updateInformationContact();
+                }
+                break;
+        
+            case "deleteInformation":
+                $authResult = $authMiddleware->verifyAccess('admin');
+                if ($authResult !== null) {
+                    $response = $authResult;
+                } else {
+                $response = $deleteInformation->deleteInformationContact();
+                }
+                break;
+
+            // Contact
+
+            case 'contact':
+                $response = $contact->getContact();
+                break;
+
+            case 'contactStatus':
+                $response = $contactStatus->getContactStatus();
+                break;
+
+            case 'contactTypeOfProject':
+                $response = $contactTypeOfProject->getContactTypeOfProject();
+                break;
+
+            case 'addContact':
+                $response = $addContact->addContact();
+                break;
+
+            case 'deleteContact':
+                $response = $deleteContact->deleteContact();
+                break;
+
     
 
     default:

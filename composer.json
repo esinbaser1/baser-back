@@ -14,7 +14,11 @@
             "Models\\ImageManagement\\": "App/Models/ImageManagement/",
             "Controllers\\ImageManagement\\": "App/Controllers/ImageManagement/",
             "Controllers\\SocialNetworkManagement\\": "App/Controllers/SocialNetworkManagement/",
-            "Models\\SocialNetworkManagement\\": "App/Models/SocialNetworkManagement/"
+            "Models\\SocialNetworkManagement\\": "App/Models/SocialNetworkManagement/",
+            "Models\\InformationContactManagement\\": "App/Models/InformationContactManagement/",
+            "Controllers\\InformationContactManagement\\": "App/Controllers/InformationContactManagement/",
+            "Models\\ContactManagement\\": "App/Models/ContactManagement/",
+            "Controllers\\ContactManagement\\": "App/Controllers/ContactManagement/"
         }
     },
     "authors": [

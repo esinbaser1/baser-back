@@ -73,3 +73,37 @@ RewriteRule ^updateSocialNetwork$ index.php?action=updateSocialNetwork [L,QSA]
 
 # URL rewriting to delete social network
 RewriteRule ^deleteSocialNetwork$ index.php?action=deleteSocialNetwork [L,QSA]
+
+# INFORMATION CONTACT -----------------------------------
+
+# URL rewriting to retrieve Information
+RewriteRule ^information$ index.php?action=information [L,QSA]
+
+# URL rewriting to retrieve Information
+RewriteRule ^informationById/([0-9]+)$ index.php?action=informationById&id=$1  [L,QSA]
+
+# URL rewriting to add new Information
+RewriteRule ^addInformation$ index.php?action=addInformation [L,QSA]
+
+# URL rewriting to update Information
+RewriteRule ^updateInformation$ index.php?action=updateInformation [L,QSA]
+
+# URL rewriting to delete Information
+RewriteRule ^deleteInformation$ index.php?action=deleteInformation [L,QSA]
+
+# CONTACT -----------------------------------
+
+# URL rewriting to retrieve Information
+RewriteRule ^contact$ index.php?action=contact [L,QSA]
+
+# URL rewriting to
+RewriteRule ^contactStatus$ index.php?action=contactStatus [L,QSA]
+
+# URL rewriting to 
+RewriteRule ^contactTypeOfProject$ index.php?action=contactTypeOfProject [L,QSA]
+
+# URL rewriting to send a message
+RewriteRule ^addContact$ index.php?action=addContact [L,QSA]
+
+# URL rewriting to delete Information
+RewriteRule ^deleteContact$ index.php?action=deleteContact [L,QSA]

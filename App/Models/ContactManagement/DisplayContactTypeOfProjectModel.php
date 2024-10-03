@@ -1,10 +1,10 @@
 <?php
 
-namespace Models\InformationContactManagement;
+namespace Models\ContactManagement;
 
 use App\Database;
 
-class DisplayInformationContactModel
+class DisplayContactTypeOfProjectModel 
 {
     protected $db;
 
@@ -14,19 +14,20 @@ class DisplayInformationContactModel
         $this->db = $database->getConnection();
     }
 
-    public function getInformationContact()
+    public function getContactTypeOfProject()
     {
         try 
         {
-            $request = "SELECT * FROM information_contact";
+            $request="SELECT * FROM type_of_project";
             $pdo = $this->db->query($request);
-            $information = $pdo->fetchAll(\PDO::FETCH_ASSOC);
+            $typeOfProject = $pdo->fetchAll(\PDO::FETCH_ASSOC);
 
-            return ["success" => true, "information" => $information];
-        } 
-        catch (\PDOException $e) 
+            return ["success" => true, "typeOfProject" => $typeOfProject];
+        }
+        catch(\PDOException)
         {
             return ["success" => false, "message" => "Erreur de base de données"];
         }
+      
     }
 }
