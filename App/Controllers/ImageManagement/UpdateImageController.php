@@ -6,20 +6,24 @@ use Models\ImageManagement\UpdateImageModel;
 
 class UpdateImageController
 {
-    protected $data;
+    protected $model;
 
     public function __construct()
     {
-      $this->data = new UpdateImageModel();
+      $this->model = new UpdateImageModel();
     }
 
     public function updateImage()
     {
-      return $this->data->updateImage();
+      return $this->model->updateImage();
     }
 
     public function getImageById($id)
     {
-        return $this->data->getImageById($id);
+      if (empty($id)) 
+      {
+        return ["success" => false, "message" => "ID non fourni"];
+      }
+        return $this->model->getImageById($id);
     }
 }

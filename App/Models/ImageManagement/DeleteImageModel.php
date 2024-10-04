@@ -1,4 +1,5 @@
 <?php
+
 namespace Models\ImageManagement;
 
 use App\Database;
@@ -13,6 +14,7 @@ class DeleteImageModel
         $this->db = $database->getConnection();
     }
 
+    // Le modèle attend désormais un ID validé depuis le contrôleur
     public function getImageById($id)
     {
         try 
@@ -37,18 +39,8 @@ class DeleteImageModel
         }
     }
 
-    public function deleteImage()
+    public function deleteImage($id)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = $data['id'] ?? null;
-    
-        if (empty($id)) 
-        {
-            return ["success" => false, "message" => "Id manquant."];
-        }
-
         // Récupérer le chemin de l'image à supprimer
         $imageResult = $this->getImageById($id);
 

@@ -6,15 +6,15 @@ use Models\ImageManagement\DisplayImageModel;
 
 class DisplayImageController
 {
-  protected $data;
+  protected $model;
 
   public function __construct()
   {
-    $this->data = new DisplayImageModel();
+    $this->model = new DisplayImageModel();
   }
 
   public function getImages()
   {
-    return $this->data->getImage();
+    return $this->model->getImage();
   }
 }

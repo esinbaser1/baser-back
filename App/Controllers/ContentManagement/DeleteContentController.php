@@ -6,15 +6,24 @@ use Models\ContentManagement\DeleteContentModel;
 
 class DeleteContentController
 {
-    protected $data;
+    protected $model;
 
     public function __construct()
     {
-        $this->data = new DeleteContentModel();
+        $this->model = new DeleteContentModel();
     }
 
     public function deleteContents()
     {
-        return $this->data->deleteContent();
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
+
+        $id = $data['id'] ?? null;
+
+        if (empty($id)) 
+        {
+            return ["success" => false, "message" => "Id manquant."];
+        }
+        return $this->model->deleteContent($id);
     }
 }

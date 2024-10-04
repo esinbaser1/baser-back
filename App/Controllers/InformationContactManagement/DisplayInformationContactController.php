@@ -6,15 +6,15 @@ use Models\InformationContactManagement\DisplayInformationContactModel;
 
 class DisplayInformationContactController
 {
-    protected $data;
+    protected $model;
 
     public function __construct()
     {
-        $this->data = new DisplayInformationContactModel();
+        $this->model = new DisplayInformationContactModel();
     }
 
     public function getInformationContact()
     {
-        return $this->data->getInformationContact();
+        return $this->model->getInformationContact();
     }
 }

@@ -11,6 +11,7 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Models\\SocialNetworkManagement\\' => array($baseDir . '/App/Models/SocialNetworkManagement'),
     'Models\\InformationContactManagement\\' => array($baseDir . '/App/Models/InformationContactManagement'),
     'Models\\ImageManagement\\' => array($baseDir . '/App/Models/ImageManagement'),

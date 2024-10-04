@@ -14,28 +14,17 @@ class AddSocialNetworkModel
         $this->db = $database->getConnection();
     }
 
-    public function addSocialNetwork()
+    // Le modèle attend désormais des données validées depuis le contrôleur
+    public function addSocialNetwork($platform, $url)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-    
-        $platform = isset($data['platform']) ? trim(strip_tags($data['platform'])) : null;
-        $url = isset($data['url']) ? trim(strip_tags($data['url'])) : null;
-    
-        if (empty($platform) || empty($url))
-        {
-          return ["success" => false, "message" => "Veuillez compléter tous les champs."];
+        if ($this->existsInColumn('platform', $platform)) {
+            return ["success" => false, "message" => "Ce nom de réseau social est déjà utilisé."];
         }
 
-        if ($this->existsInColumn('platform', $platform)) {
-            return ["success" => false, "message" => "Ce nom de plateforme est déjà utilisé."];
-        }
-    
-        // Vérifier si l'URL existe déjà pour un autre ID
         if ($this->existsInColumn('url', $url)) {
             return ["success" => false, "message" => "Cette URL est déjà utilisée."];
         }
-    
+
         try 
         {
             $request = "INSERT INTO social_network (platform, url) VALUES (?, ?)";
@@ -47,7 +36,7 @@ class AddSocialNetworkModel
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Database error: " . $e->getMessage()];
+            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
         }
     }
 

@@ -3,10 +3,12 @@
 require_once('vendor/autoload.php');
 
 use Controllers\ContactManagement\AddContactController;
+use Controllers\ContactManagement\ArchiveContactController;
 use Controllers\ContactManagement\DeleteContactController;
 use Controllers\ContactManagement\DisplayContactController;
 use Controllers\ContactManagement\DisplayContactStatusController;
 use Controllers\ContactManagement\DisplayContactTypeOfProjectController;
+use Controllers\ContactManagement\ReplyContactController;
 use Controllers\ContentManagement\AddContentController;
 use Controllers\ContentManagement\DeleteContentController;
 use Controllers\ContentManagement\DisplayContentController;
@@ -55,6 +57,7 @@ $information = new DisplayInformationContactController();
 $addInformation = new AddInformationContactController();
 $updateInformation = new UpdateInformationContactController();
 $deleteInformation = new DeleteInformationContactController();
+$replyContact = new ReplyContactController();
 
 // Contact
 
@@ -63,6 +66,7 @@ $contactStatus = new DisplayContactStatusController();
 $contactTypeOfProject = new DisplayContactTypeOfProjectController();
 $addContact = new AddContactController();
 $deleteContact = new DeleteContactController();
+$archiveContact = new ArchiveContactController();
 
 // Section
 $section = new DisplaySectionController();
@@ -99,26 +103,22 @@ switch ($action) {
         }
         break;
 
-    // Content
+        // Content
     case 'content':
         $response = $content->getContents();
         break;
 
     case 'contentById':
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $response = $updateContent->getContentById($id);
-        } else {
-            $response = ["success" => false, "message" => "ID non fourni"];
-        }
+        $id = $_GET['id'] ?? null;
+        $response = $updateContent->getContentById($id);
         break;
 
     case 'addContent':
-        $authResult = $authMiddleware->verifyAccess('admin');  // vérification admin
-        if ($authResult !== null) {  // si pas d'accès
-            $response = $authResult;  // retourne l'erreur, comme un 401
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {  
+            $response = $authResult;
         } else {
-            $response = $addContent->addContents();  // sinon, ajoute le contenu
+            $response = $addContent->addContents(); 
         }
         break;
 
@@ -139,29 +139,26 @@ switch ($action) {
             $response = $deleteContent->deleteContents();
         }
         break;
-    
-    // Section
+
+        // Section
     case 'section':
         $response = $section->getSections();
         break;
 
-    // Status
+        // Status
     case 'status':
         $response = $status->getStatus();
         break;
 
-    // Image
+        // Image
     case "image":
         $response = $image->getImages();
-    break;
+        break;
 
     case 'imageById':
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $response = $updateImage->getImageById($id);
-        } else {
-            $response = ["success" => false, "message" => "ID non fourni"];
-        }
+        $id = $_GET['id'] ?? null;
+        $response = $updateImage->getImageById($id);
+
         break;
 
     case "addImage":
@@ -178,7 +175,7 @@ switch ($action) {
         if ($authResult !== null) {
             $response = $authResult;
         } else {
-        $response = $updateImage->updateImage();
+            $response = $updateImage->updateImage();
         }
         break;
 
@@ -187,117 +184,132 @@ switch ($action) {
         if ($authResult !== null) {
             $response = $authResult;
         } else {
-        $response = $deleteImage->deleteImages();
+            $response = $deleteImage->deleteImages();
         }
         break;
 
-    // Social Network
+        // Social Network
     case "socialNetwork":
         $response = $socialNetwork->getSocialNetwork();
-    break;
+        break;
 
     case 'socialNetworkById':
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $response = $updateSocialNetwork->getSocialNetworkById($id);
+        $id = $_GET['id'] ?? null;
+        $response = $updateSocialNetwork->getSocialNetworkById($id);
+        break;
+
+
+    case "addSocialNetwork":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
         } else {
-            $response = ["success" => false, "message" => "ID non fourni"];
+            $response = $addSocialNetwork->addSocialNetwork();
         }
         break;
 
-    
-        case "addSocialNetwork":
-            $authResult = $authMiddleware->verifyAccess('admin');
-            if ($authResult !== null) {
-                $response = $authResult;
-            } else {
-                $response = $addSocialNetwork->addSocialNetwork();
-            }
-            break;
-    
-        case "updateSocialNetwork":
-            $authResult = $authMiddleware->verifyAccess('admin');
-            if ($authResult !== null) {
-                $response = $authResult;
-            } else {
+    case "updateSocialNetwork":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
             $response = $updateSocialNetwork->updateSocialNetwork();
-            }
-            break;
-    
-        case "deleteSocialNetwork":
-            $authResult = $authMiddleware->verifyAccess('admin');
-            if ($authResult !== null) {
-                $response = $authResult;
-            } else {
+        }
+        break;
+
+    case "deleteSocialNetwork":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
             $response = $deleteSocialNetwork->deleteSocialNetwork();
-            }
-            break;
+        }
+        break;
 
         // Information contact 
 
-        case "information":
-            $response = $information->getInformationContact();
+    case "information":
+        $response = $information->getInformationContact();
         break;
-    
-        case 'informationById':
-            if (isset($_GET['id'])) {
-                $id = intval($_GET['id']);
-                $response = $updateInformation->getInformationContactById($id);
-            } else {
-                $response = ["success" => false, "message" => "ID non fourni"];
-            }
-            break;
-    
-            case "addInformation":
-                $authResult = $authMiddleware->verifyAccess('admin');
-                if ($authResult !== null) {
-                    $response = $authResult;
-                } else {
-                    $response = $addInformation->addInformationContact();
-                }
-                break;
-        
-            case "updateInformation":
-                $authResult = $authMiddleware->verifyAccess('admin');
-                if ($authResult !== null) {
-                    $response = $authResult;
-                } else {
-                $response = $updateInformation->updateInformationContact();
-                }
-                break;
-        
-            case "deleteInformation":
-                $authResult = $authMiddleware->verifyAccess('admin');
-                if ($authResult !== null) {
-                    $response = $authResult;
-                } else {
-                $response = $deleteInformation->deleteInformationContact();
-                }
-                break;
 
-            // Contact
+    case 'informationById':
+        $id = $_GET['id'] ?? null;
+        $response = $updateInformation->getInformationContactById($id);
 
-            case 'contact':
-                $response = $contact->getContact();
-                break;
+        break;
 
-            case 'contactStatus':
-                $response = $contactStatus->getContactStatus();
-                break;
+    case "addInformation":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $addInformation->addInformationContact();
+        }
+        break;
 
-            case 'contactTypeOfProject':
-                $response = $contactTypeOfProject->getContactTypeOfProject();
-                break;
+    case "updateInformation":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $updateInformation->updateInformationContact();
+        }
+        break;
 
-            case 'addContact':
-                $response = $addContact->addContact();
-                break;
+    case "deleteInformation":
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $deleteInformation->deleteInformationContact();
+        }
+        break;
 
-            case 'deleteContact':
-                $response = $deleteContact->deleteContact();
-                break;
+        // Contact
 
-    
+    case 'contact':
+        $response = $contact->getContact();
+        break;
+
+    case 'contactStatus':
+        $response = $contactStatus->getContactStatus();
+        break;
+
+    case 'contactTypeOfProject':
+        $response = $contactTypeOfProject->getContactTypeOfProject();
+        break;
+
+    case 'addContact':
+        $response = $addContact->addContact();
+        break;
+
+    case 'deleteContact':
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $deleteContact->deleteContact();
+        }
+        break;
+
+    case 'replyContact':
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $replyContact->replyContact();
+        }
+        break;
+
+    case 'archiveContact':
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $archiveContact->archiveContact();
+        }
+        break;
+
 
     default:
         http_response_code(404);

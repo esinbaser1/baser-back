@@ -1,4 +1,5 @@
 <?php
+
 namespace Models\ContentManagement;
 
 use App\Database;
@@ -13,18 +14,8 @@ class DeleteContentModel
         $this->db = $database->getConnection();
     }
 
-    public function deleteContent()
+    public function deleteContent($id)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = $data['id'] ?? null;
-    
-        if (empty($id)) 
-        {
-            return ["success" => false, "message" => "Id manquant."];
-        }
-    
         try 
         {
             $request = "DELETE FROM content WHERE id = ?";
@@ -42,7 +33,7 @@ class DeleteContentModel
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            return ["success" => false, "message" => "Erreur de base de données : " . $e->getMessage()];
         }
     }
 }

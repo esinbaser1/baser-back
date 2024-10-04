@@ -1,4 +1,5 @@
 <?php
+
 namespace Models\InformationContactManagement;
 
 use App\Database;
@@ -13,16 +14,9 @@ class UpdateInformationContactModel
         $this->db = $database->getConnection();
     }
 
-    public function updateInformationContact()
+    // Le modèle attend désormais des données validées depuis le contrôleur
+    public function updateInformationContact($mobile, $email, $address, $id)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $mobile = isset($data['mobile']) ? trim(strip_tags($data['mobile'])) : null;
-        $email = isset($data['email']) ? trim(strip_tags($data['email'])) : null;
-        $address = isset($data['address']) ? trim(strip_tags($data['address'])) : null;
-        $id = isset($data['idInformation']) ? intval($data['idInformation']) : null;
-
         // Récupérer l'information de contact existante
         $existingInformationResult = $this->getInformationContactById($id);
 
@@ -41,17 +35,6 @@ class UpdateInformationContactModel
         ) 
         {
             return ["success" => false, "message" => "Aucun changement détecté."];
-        }
-
-        // Validation du mobile et email
-        if (!empty($mobile) && !preg_match('/^\+?[0-9]*$/', $mobile)) 
-        {
-            return ["success" => false, "message" => "Format du numéro de téléphone mobile invalide."];
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
-        {
-            return ["success" => false, "message" => "Email invalide."];
         }
 
         try 
@@ -86,7 +69,6 @@ class UpdateInformationContactModel
         } 
         catch (\PDOException $e) 
         {
-            error_log("Erreur lors de la récupération du contenu: " . $e->getMessage());
             return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
         }
     }

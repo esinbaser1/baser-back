@@ -1,4 +1,5 @@
 <?php
+
 namespace Models\SocialNetworkManagement;
 
 use App\Database;
@@ -13,18 +14,9 @@ class DeleteSocialNetworkModel
         $this->db = $database->getConnection();
     }
 
-    public function deleteSocialNetwork()
+    // Le modèle attend désormais un ID validé depuis le contrôleur
+    public function deleteSocialNetwork($id)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = $data['id'] ?? null;
-    
-        if (empty($id)) 
-        {
-            return ["success" => false, "message" => "Id manquant."];
-        }
-    
         try 
         {
             $request = "DELETE FROM social_network WHERE id = ?";
@@ -42,7 +34,7 @@ class DeleteSocialNetworkModel
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
         }
     }
 }

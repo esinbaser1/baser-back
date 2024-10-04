@@ -18,35 +18,12 @@ class AddImageModel
         $this->slug = new Slug();
     }
 
-    public function addImage()
+    // Le modèle attend désormais les données validées depuis le contrôleur
+    public function addImage($imageName, $imagePath, $section)
     {
-        $imageName = isset($_POST['name']) ? trim(strip_tags($_POST['name']))  : null;
-        $imagePath = isset($_FILES['path']) && $_FILES['path']['error'] === UPLOAD_ERR_OK ? $_FILES['path'] : null;
-        $section = isset($_POST['section_id']) ? intval($_POST['section_id']) : null;
-
-        if (empty($imageName) || empty($section) || empty($imagePath))
-        {
-            return ["success" => false, "message" => "Veuillez compléter tous les champs."];
-        }
-
         if ($this->nameExist($imageName)) 
         {
             return ["success" => false, "message" => "Ce nom est déjà utilisé."];
-        }
-
-        // Vérification du type MIME et de la taille du fichier
-        $mimeType = mime_content_type($imagePath['tmp_name']);
-        $validMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
-        if (!in_array($mimeType, $validMimeTypes)) 
-        {
-            return ["success" => false, "message" => "Le fichier doit être une image valide (JPEG, PNG, WebP)."];
-        }
-
-        // Vérification de la taille du fichier (maximum 5 Mo)
-        if ($imagePath['size'] > 5 * 1024 * 1024) 
-        {
-            return ["success" => false, "message" => "La taille de l'image ne doit pas dépasser 5 Mo."];
         }
 
         // Création du slug pour l'image

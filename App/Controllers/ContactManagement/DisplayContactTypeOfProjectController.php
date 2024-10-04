@@ -6,15 +6,15 @@ use Models\ContactManagement\DisplayContactTypeOfProjectModel;
 
 class DisplayContactTypeOfProjectController 
 {
-  protected $data;
+  protected $model;
 
   public function __construct()
   {
-    $this->data = new DisplayContactTypeOfProjectModel();
+    $this->model = new DisplayContactTypeOfProjectModel();
   }
 
   public function getContactTypeOfProject()
   {
-    return $this->data->getContactTypeOfProject();
+    return $this->model->getContactTypeOfProject();
   }
 }

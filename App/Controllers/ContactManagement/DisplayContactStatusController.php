@@ -6,15 +6,15 @@ use Models\ContactManagement\DisplayContactStatusModel;
 
 class DisplayContactStatusController 
 {
-  protected $data;
+  protected $model;
 
   public function __construct()
   {
-    $this->data = new DisplayContactStatusModel();
+    $this->model = new DisplayContactStatusModel();
   }
 
   public function getContactStatus()
   {
-    return $this->data->getContactStatus();
+    return $this->model->getContactStatus();
   }
 }

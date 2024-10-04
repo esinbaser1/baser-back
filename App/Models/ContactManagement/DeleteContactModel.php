@@ -14,24 +14,15 @@ class DeleteContactModel
         $this->db = $database->getConnection();
     }
 
-    public function deleteContact()
+    // Le modèle attend maintenant un $contactId validé et fait juste l'opération de suppression
+    public function deleteContact($contactId)
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = $data['id'] ?? null;
-    
-        if (empty($id)) 
-        {
-            return ["success" => false, "message" => "Id manquant."];
-        }
-    
         try 
         {
             $request = "DELETE FROM contact WHERE id = ?";
             $pdo = $this->db->prepare($request);
-            $pdo->execute([$id]);
-    
+            $pdo->execute([$contactId]);
+
             if ($pdo->rowCount() > 0) 
             {
                 return ["success" => true, "message" => "Message supprimé avec succès."];
@@ -43,7 +34,7 @@ class DeleteContactModel
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            return ["success" => false, "message" => "Erreur de base de données : " . $e->getMessage()];
         }
     }
 }

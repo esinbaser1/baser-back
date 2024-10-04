@@ -6,15 +6,24 @@ use Models\InformationContactManagement\DeleteInformationContactModel;
 
 class DeleteInformationContactController
 {
-    protected $data;
+    protected $model;
 
     public function __construct()
     {
-        $this->data = new DeleteInformationContactModel();
+        $this->model = new DeleteInformationContactModel();
     }
 
     public function deleteInformationContact()
     {
-        return $this->data->deleteInformationContact();
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
+
+        $id = isset($data['id']) ? intval($data['id']) : null;
+    
+        if (empty($id)) 
+        {
+            return ["success" => false, "message" => "Id manquant."];
+        }
+        return $this->model->deleteInformationContact($id);
     }
 }

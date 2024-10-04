@@ -93,17 +93,23 @@ RewriteRule ^deleteInformation$ index.php?action=deleteInformation [L,QSA]
 
 # CONTACT -----------------------------------
 
-# URL rewriting to retrieve Information
+# URL rewriting to retrieve contact
 RewriteRule ^contact$ index.php?action=contact [L,QSA]
 
-# URL rewriting to
+# URL rewriting to contact status
 RewriteRule ^contactStatus$ index.php?action=contactStatus [L,QSA]
 
-# URL rewriting to 
+# URL rewriting to retrieve type of project
 RewriteRule ^contactTypeOfProject$ index.php?action=contactTypeOfProject [L,QSA]
 
 # URL rewriting to send a message
 RewriteRule ^addContact$ index.php?action=addContact [L,QSA]
 
-# URL rewriting to delete Information
+# URL rewriting to delete contact
 RewriteRule ^deleteContact$ index.php?action=deleteContact [L,QSA]
+
+# URL rewriting to reply contact
+RewriteRule ^replyContact$ index.php?action=replyContact [L,QSA]
+
+# URL rewriting to archive contact
+RewriteRule ^archiveContact$ index.php?action=archiveContact [L,QSA]
