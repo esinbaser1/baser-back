@@ -18,7 +18,6 @@ class AddImageModel
         $this->slug = new Slug();
     }
 
-    // Le modèle attend désormais les données validées depuis le contrôleur
     public function addImage($imageName, $imagePath, $section)
     {
         if ($this->nameExist($imageName)) 

@@ -14,10 +14,8 @@ class UpdateInformationContactModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais des données validées depuis le contrôleur
     public function updateInformationContact($mobile, $email, $address, $id)
     {
-        // Récupérer l'information de contact existante
         $existingInformationResult = $this->getInformationContactById($id);
 
         if (!$existingInformationResult['success']) 
@@ -27,7 +25,6 @@ class UpdateInformationContactModel
 
         $existingContent = $existingInformationResult['information'];
 
-        // Comparer les données existantes avec celles fournies
         if (
             $mobile === $existingContent['mobile'] &&
             $email === $existingContent['email'] &&
@@ -39,7 +36,6 @@ class UpdateInformationContactModel
 
         try 
         {
-            // Mise à jour des données si nécessaire
             $request = "UPDATE information_contact SET mobile = ?, email = ?, address = ? WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$mobile, $email, $address, $id]);
@@ -61,9 +57,12 @@ class UpdateInformationContactModel
             $pdo->execute([$id]);
             $information = $pdo->fetch(\PDO::FETCH_ASSOC);
 
-            if ($information) {
+            if ($information) 
+            {
                 return ["success" => true, "information" => $information];
-            } else {
+            } 
+            else 
+            {
                 return ["success" => false, "message" => "Information non trouvée."];
             }
         } 

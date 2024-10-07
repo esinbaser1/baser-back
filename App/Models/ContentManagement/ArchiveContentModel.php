@@ -4,7 +4,7 @@ namespace Models\ContentManagement;
 
 use App\Database;
 
-class DeleteContentModel
+class ArchiveContentModel
 {
     protected $db;
 
@@ -14,26 +14,26 @@ class DeleteContentModel
         $this->db = $database->getConnection();
     }
 
-    public function deleteContent($id)
+    public function archiveContent($id)
     {
         try 
         {
-            $request = "DELETE FROM content WHERE id = ?";
+            $request = "UPDATE content SET is_archived = 1 WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-    
+
             if ($pdo->rowCount() > 0) 
             {
-                return ["success" => true, "message" => "Contenu supprimé avec succès."];
+                return ["success" => true, "message" => "Message archivé avec succès."];
             } 
             else 
             {
-                return ["success" => false, "message" => "Contenu introuvable."];
+                return ["success" => false, "message" => "Message introuvable."];
             }
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données : " . $e->getMessage()];
+            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
         }
     }
 }

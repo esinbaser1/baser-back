@@ -28,6 +28,5 @@ class DisplayContactTypeOfProjectModel
         {
             return ["success" => false, "message" => "Erreur de base de données"];
         }
-      
     }
 }

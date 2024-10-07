@@ -14,7 +14,6 @@ class AddInformationContactModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais les données validées depuis le contrôleur
     public function addInformationContact($mobile, $email, $address)
     {
         try 

@@ -10,6 +10,7 @@ use Controllers\ContactManagement\DisplayContactStatusController;
 use Controllers\ContactManagement\DisplayContactTypeOfProjectController;
 use Controllers\ContactManagement\ReplyContactController;
 use Controllers\ContentManagement\AddContentController;
+use Controllers\ContentManagement\ArchiveContentController;
 use Controllers\ContentManagement\DeleteContentController;
 use Controllers\ContentManagement\DisplayContentController;
 use Controllers\ContentManagement\UpdateContentController;
@@ -37,6 +38,7 @@ $content = new DisplayContentController();
 $updateContent = new UpdateContentController();
 $addContent = new AddContentController();
 $deleteContent = new DeleteContentController();
+$archiveContent = new ArchiveContentController();
 
 // Image
 $image = new DisplayImageController();
@@ -137,6 +139,15 @@ switch ($action) {
             $response = $authResult;
         } else {
             $response = $deleteContent->deleteContents();
+        }
+        break;
+        
+    case 'archiveContent':
+        $authResult = $authMiddleware->verifyAccess('admin');
+        if ($authResult !== null) {
+            $response = $authResult;
+        } else {
+            $response = $archiveContent->archiveContent();
         }
         break;
 

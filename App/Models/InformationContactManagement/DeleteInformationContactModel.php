@@ -14,7 +14,6 @@ class DeleteInformationContactModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais un ID validé depuis le contrôleur
     public function deleteInformationContact($id)
     {
         try 

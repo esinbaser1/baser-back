@@ -14,7 +14,6 @@ class UpdateContentModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais des données validées depuis le contrôleur
     public function updateContent($id, $content, $section, $status)
     {
         try 
@@ -32,7 +31,6 @@ class UpdateContentModel
         }
     }
 
-    // Méthode pour récupérer le contenu existant par ID
     public function getContentById($id)
     {
         try 

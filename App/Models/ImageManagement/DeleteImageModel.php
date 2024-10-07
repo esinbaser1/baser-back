@@ -14,7 +14,6 @@ class DeleteImageModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais un ID validé depuis le contrôleur
     public function getImageById($id)
     {
         try 
@@ -41,15 +40,14 @@ class DeleteImageModel
 
     public function deleteImage($id)
     {
-        // Récupérer le chemin de l'image à supprimer
         $imageResult = $this->getImageById($id);
 
         if (!$imageResult['success']) 
         {
-            return $imageResult;  // Si l'image n'existe pas, renvoie le message d'erreur
+            return $imageResult; 
         }
 
-        $imagePath = 'assets/img/' . $imageResult['image']['path']; // Chemin complet de l'image
+        $imagePath = 'assets/img/' . $imageResult['image']['path'];
 
         try 
         {

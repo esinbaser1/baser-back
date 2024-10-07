@@ -14,14 +14,15 @@ class AddSocialNetworkModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais des données validées depuis le contrôleur
     public function addSocialNetwork($platform, $url)
     {
-        if ($this->existsInColumn('platform', $platform)) {
+        if ($this->existsInColumn('platform', $platform)) 
+        {
             return ["success" => false, "message" => "Ce nom de réseau social est déjà utilisé."];
         }
 
-        if ($this->existsInColumn('url', $url)) {
+        if ($this->existsInColumn('url', $url)) 
+        {
             return ["success" => false, "message" => "Cette URL est déjà utilisée."];
         }
 
@@ -32,7 +33,6 @@ class AddSocialNetworkModel
             $pdo->execute([$platform, $url]);
         
             return ["success" => true, "message" => "Réseau social ajouté avec succès!"];
-    
         } 
         catch (\PDOException $e) 
         {

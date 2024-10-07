@@ -14,7 +14,6 @@ class DeleteContactModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend maintenant un $contactId validé et fait juste l'opération de suppression
     public function deleteContact($contactId)
     {
         try 

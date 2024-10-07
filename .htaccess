@@ -30,6 +30,10 @@ RewriteRule ^updateContent$ index.php?action=updateContent [L,QSA]
 # URL rewriting to delete content
 RewriteRule ^deleteContent$ index.php?action=deleteContent [L,QSA]
 
+
+# URL rewriting to delete content
+RewriteRule ^archiveContent$ index.php?action=archiveContent [L,QSA]
+
 # SECTION -----------------------------------
 
 # URL rewriting to retrieve section

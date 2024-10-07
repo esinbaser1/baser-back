@@ -14,7 +14,6 @@ class AddContentModel
         $this->db = $database->getConnection();
     }
 
-    // Le modèle attend désormais des données validées depuis le contrôleur
     public function addContent($content, $section, $status)
     {
         try 
