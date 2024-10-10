@@ -14,15 +14,14 @@ class AddContactModel
     $this->db = $database->getConnection();
   }
 
-  public function addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject)
+  public function addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $consent)
   {
-    // Statut par défaut (1 = "Non lu")
-    $status = 1;
+    $status = 1; // Statut par défaut (1 = "Non lu")
 
     try {
-      $request = "INSERT INTO contact (firstname, lastname, email, mobile, city, message, type_of_project_id, status_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      $request = "INSERT INTO contact (firstname, lastname, email, mobile, city, message, type_of_project_id, status_id, consent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
       $pdo = $this->db->prepare($request);
-      $pdo->execute([$firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $status]);
+      $pdo->execute([$firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $status, $consent]);
 
       return ["success" => true, "message" => "Message envoyé avec succès!"];
     } catch (\PDOException $e) {

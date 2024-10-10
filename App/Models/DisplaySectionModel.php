@@ -18,7 +18,7 @@ class DisplaySectionModel
     {
         try
         {
-            $request = "SELECT * FROM section";
+            $request = "SELECT * FROM section_image";
             $pdo = $this->db->query($request);
             $section = $pdo->fetchAll(\PDO::FETCH_ASSOC);
 

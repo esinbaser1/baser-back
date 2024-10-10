@@ -25,10 +25,15 @@ class AddContactController
         $city = isset($data['city']) ? trim(strip_tags($data['city'])) : null;
         $message = isset($data['message']) ? trim(strip_tags($data['message'])) : null;
         $typeOfProject = isset($data['type_of_project_id']) ? trim(strip_tags($data['type_of_project_id'])) : null;
+        $consent = isset($data['consent']) ? (bool)$data['consent'] : false; 
 
         if (empty($firstname) || empty($lastname) || empty($email) || empty($mobile) || empty($city) || empty($typeOfProject)) 
         {
             return ["success" => false, "message" => "Veuillez compléter tous les champs obligatoires."];
+        }
+
+        if (!$consent) {
+            return ["success" => false, "message" => "Veuillez accepter le consentement."];
         }
 
         if (!preg_match('/^\+?[0-9]*$/', $mobile)) 
@@ -41,6 +46,6 @@ class AddContactController
             return ["success" => false, "message" => "Email invalide."];
         }
 
-        return $this->model->addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject);
+        return $this->model->addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $consent);
     }
 }

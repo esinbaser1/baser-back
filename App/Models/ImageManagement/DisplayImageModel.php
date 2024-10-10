@@ -18,7 +18,10 @@ class DisplayImageModel
   {
     try 
     {
-      $request = "SELECT image.*, section.name AS section_name FROM image JOIN section ON image.section_id = section.id";
+      $request = "SELECT image.*, section_image.name AS section_name, section_image.slug AS section_slug 
+            FROM image 
+            JOIN section_image ON image.section_id = section_image.id";
+
 
       $pdo = $this->db->query($request);
       $image = $pdo->fetchAll(\PDO::FETCH_ASSOC);

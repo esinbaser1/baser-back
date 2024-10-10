@@ -19,7 +19,7 @@ class Slug
 // // Test
 // $slugger = new Slug();
 
-// $testString = "Autre";
+// $testString = "Page nos réalisations";
 
 // $result = $slugger->sluguer($testString);
 // echo $result;

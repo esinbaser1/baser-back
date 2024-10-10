@@ -79,9 +79,4 @@ private function resizeImage($image, $fixedWidth, $fixedHeight)
 
     return $resizedImage;
 }
-
-
-
-    
-
 }
