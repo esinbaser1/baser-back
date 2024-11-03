@@ -20,13 +20,11 @@ class DisplayContactStatusModel
         {
             $request="SELECT * FROM status_contact";
             $pdo = $this->db->query($request);
-            $statuses = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-
-            return ["success" => true, "statuses" => $statuses];
+            return $pdo->fetchAll(\PDO::FETCH_ASSOC);
         }
-        catch(\PDOException)
+        catch(\PDOException $e)
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

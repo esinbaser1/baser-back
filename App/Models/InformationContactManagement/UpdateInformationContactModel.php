@@ -3,6 +3,7 @@
 namespace Models\InformationContactManagement;
 
 use App\Database;
+use PDOException;
 
 class UpdateInformationContactModel
 {
@@ -16,14 +17,12 @@ class UpdateInformationContactModel
 
     public function updateInformationContact($mobile, $email, $address, $id)
     {
-        $existingInformationResult = $this->getInformationContactById($id);
+        $existingContent = $this->getInformationContactById($id);
 
-        if (!$existingInformationResult['success']) 
+        if (!$existingContent) 
         {
-            return $existingInformationResult;  
+            throw new \Exception("Information de contact introuvable.");
         }
-
-        $existingContent = $existingInformationResult['information'];
 
         if (
             $mobile === $existingContent['mobile'] &&
@@ -31,7 +30,7 @@ class UpdateInformationContactModel
             $address === $existingContent['address']
         ) 
         {
-            return ["success" => false, "message" => "Aucun changement détecté."];
+            return false; // Indique qu'aucun changement n'a été effectué
         }
 
         try 
@@ -40,11 +39,11 @@ class UpdateInformationContactModel
             $pdo = $this->db->prepare($request);
             $pdo->execute([$mobile, $email, $address, $id]);
 
-            return ["success" => true, "message" => "Information de contact mise à jour avec succès!"];
+            return $pdo->rowCount() > 0; // Retourne true si la mise à jour a réussi, sinon false
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage()); 
         }
     }
 
@@ -55,20 +54,11 @@ class UpdateInformationContactModel
             $request = "SELECT * FROM information_contact WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-            $information = $pdo->fetch(\PDO::FETCH_ASSOC);
-
-            if ($information) 
-            {
-                return ["success" => true, "information" => $information];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Information non trouvée."];
-            }
+            return $pdo->fetch(\PDO::FETCH_ASSOC); 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage()); 
         }
     }
 }

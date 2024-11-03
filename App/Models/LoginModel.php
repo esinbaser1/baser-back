@@ -3,21 +3,17 @@
 namespace Models;
 
 use App\Database;
-use Utils\Token;
 
 class LoginModel
 {
     protected $db;
-    protected $token;
 
     public function __construct()
     {
         $database = new Database();
         $this->db = $database->getConnection();
-        $this->token = new Token();
     }
 
-    // Récupérer l'utilisateur par email
     public function getUserByEmail($email)
     {
         try 
@@ -30,17 +26,10 @@ class LoginModel
         } 
         catch (\PDOException $e) 
         {
-            return null; // Gestion des erreurs si la base de données échoue
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 
-    // Générer le token JWT
-    public function generateToken($userId, $role)
-    {
-        return $this->token->generateToken($userId, $role);
-    }
-
-    // Récupérer l'utilisateur par son ID
     public function getUserById($userId)
     {
         try 
@@ -53,13 +42,7 @@ class LoginModel
         } 
         catch (\PDOException $e) 
         {
-            return null; // Retourner null en cas d'échec
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
-    }
-
-    // Déconnexion (facultative avec JWT)
-    public function logout()
-    {
-        return ["success" => true, "message" => "Déconnexion réussie."];
     }
 }

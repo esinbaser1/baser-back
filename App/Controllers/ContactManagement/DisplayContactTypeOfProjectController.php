@@ -15,6 +15,14 @@ class DisplayContactTypeOfProjectController
 
   public function getContactTypeOfProject()
   {
-    return $this->model->getContactTypeOfProject();
+    try 
+    {
+      $typeOfProject = $this->model->getContactTypeOfProject();
+      return ["success" => true, "typeOfProject" => $typeOfProject];
+    }
+    catch (\Exception $e) 
+    {
+      return ["success" => false, "message" => $e->getMessage()];
+    }
   }
 }

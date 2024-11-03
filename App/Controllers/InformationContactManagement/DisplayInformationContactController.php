@@ -15,6 +15,14 @@ class DisplayInformationContactController
 
     public function getInformationContact()
     {
-        return $this->model->getInformationContact();
+        try 
+        {
+            $information = $this->model->getInformationContact();
+            return ["success" => true, "information" => $information];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

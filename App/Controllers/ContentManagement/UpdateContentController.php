@@ -28,25 +28,39 @@ class UpdateContentController
             return ["success" => false, "message" => "Tous les champs doivent être remplis."];
         }
 
-        $existingContentResult = $this->getContentById($id);
-
-        if (!$existingContentResult['success']) 
+        try 
         {
-            return $existingContentResult; 
-        }
+            $existingContent = $this->model->getContentById($id);
 
-        $existingContent = $existingContentResult['content'];
+            if (!$existingContent) 
+            {
+                return ["success" => false, "message" => "Contenu introuvable."];
+            }
 
-        if (
-            $content === $existingContent['content'] &&
-            $section === intval($existingContent['section_id']) &&
-            $status === intval($existingContent['status_id'])
-        ) 
+            if (
+                $content === $existingContent['content'] &&
+                $section === intval($existingContent['section_id']) &&
+                $status === intval($existingContent['status_id'])
+            ) 
+            {
+                return ["success" => false, "message" => "Aucun changement détecté."];
+            }
+
+            $updateResult = $this->model->updateContent($id, $content, $section, $status);
+
+            if ($updateResult) 
+            {
+                return ["success" => true, "message" => "Contenu mis à jour avec succès!"];
+            } 
+            else 
+            {
+                return ["success" => false, "message" => "Échec de la mise à jour du contenu."];
+            }
+        } 
+        catch (\Exception $e) 
         {
-            return ["success" => false, "message" => "Aucun changement détecté."];
+            return ["success" => false, "message" => $e->getMessage()];
         }
-
-        return $this->model->updateContent($id, $content, $section, $status);
     }
 
     public function getContentById($id)
@@ -55,7 +69,22 @@ class UpdateContentController
         {
             return ["success" => false, "message" => "ID non fourni"];
         }
-        
-        return $this->model->getContentById($id);
+
+        try 
+        {
+            $content = $this->model->getContentById($id);
+            if ($content) 
+            {
+                return ["success" => true, "content" => $content];
+            } 
+            else 
+            {
+                return ["success" => false, "message" => "Contenu introuvable."];
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

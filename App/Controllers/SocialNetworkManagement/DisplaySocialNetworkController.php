@@ -15,6 +15,14 @@ class DisplaySocialNetworkController
 
     public function getSocialNetwork()
     {
-        return $this->model->getSocialNetwork();
+        try 
+        {
+            $socialNetwork = $this->model->getSocialNetwork();
+            return ["success" => true, "socialNetwork" => $socialNetwork];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

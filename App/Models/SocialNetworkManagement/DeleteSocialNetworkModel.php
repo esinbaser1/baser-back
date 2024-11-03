@@ -3,6 +3,7 @@
 namespace Models\SocialNetworkManagement;
 
 use App\Database;
+use PDOException;
 
 class DeleteSocialNetworkModel
 {
@@ -21,19 +22,12 @@ class DeleteSocialNetworkModel
             $request = "DELETE FROM social_network WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-    
-            if ($pdo->rowCount() > 0) 
-            {
-                return ["success" => true, "message" => "Réseau social supprimé avec succès."];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Réseau social introuvable."];
-            }
+
+            return $pdo->rowCount() > 0; 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

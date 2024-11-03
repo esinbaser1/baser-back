@@ -45,7 +45,16 @@ class AddContactController
         {
             return ["success" => false, "message" => "Email invalide."];
         }
-
-        return $this->model->addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $consent);
+        
+        try 
+        {
+            $this->model->addContact($firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $consent);
+            return ["success" => true, "message" => "Message envoyé avec succès!"];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
+      
     }
 }

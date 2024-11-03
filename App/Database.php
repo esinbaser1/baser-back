@@ -5,7 +5,6 @@ namespace App;
 class Database {
 
     protected $cnx;
-    // protected $host = '127.0.0.1';
     protected $host = 'localhost';
     protected $db = 'baser';
     protected $login = 'root';
@@ -20,3 +19,6 @@ class Database {
         return $this->cnx;
     }
 }  
+
+
+

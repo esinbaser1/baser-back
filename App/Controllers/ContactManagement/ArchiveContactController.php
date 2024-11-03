@@ -25,6 +25,21 @@ class ArchiveContactController
             return ["success" => false, "message" => "Id manquant."];
         }
 
-        return $this->model->archiveContact($id);
+        try 
+        {
+            $result = $this->model->archiveContact($id);
+            if ($result) 
+            {
+                return ["success" => true, "message" => "Message archivé avec succès."];
+            } 
+            else 
+            {
+                return ["success" => false, "message" => "Message introuvable."];
+            }
+        } 
+        catch (\Exception $e)
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

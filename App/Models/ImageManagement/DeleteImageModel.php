@@ -3,6 +3,7 @@
 namespace Models\ImageManagement;
 
 use App\Database;
+use PDOException;
 
 class DeleteImageModel
 {
@@ -21,61 +22,47 @@ class DeleteImageModel
             $request = "SELECT path FROM image WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-            $image = $pdo->fetch(\PDO::FETCH_ASSOC);
-
-            if ($image) 
-            {
-                return ["success" => true, "image" => $image];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Image introuvable."];
-            }
+            return $pdo->fetch(\PDO::FETCH_ASSOC); 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 
     public function deleteImage($id)
     {
-        $imageResult = $this->getImageById($id);
+        $image = $this->getImageById($id);
 
-        if (!$imageResult['success']) 
+        if (!$image) 
         {
-            return $imageResult; 
+            throw new \Exception("Image introuvable.");
         }
 
-        $imagePath = 'assets/img/' . $imageResult['image']['path'];
+        $imagePath = 'assets/img/' . $image['path'];
 
         try 
         {
-            // Supprimer l'image de la base de données
             $request = "DELETE FROM image WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
 
             if ($pdo->rowCount() > 0) 
             {
-                // Supprimer le fichier image du dossier si la suppression en base est réussie
-                if (file_exists($imagePath)) 
+                if (file_exists($imagePath) && !unlink($imagePath)) 
                 {
-                    if (!unlink($imagePath)) 
-                    {
-                        return ["success" => true, "message" => "Image supprimée de la base de données mais échec de la suppression du fichier physique."];
-                    }
+                    throw new \Exception("Image supprimée de la base de données mais échec de la suppression du fichier physique.");
                 }
-                return ["success" => true, "message" => "Image supprimée avec succès."];
+                return true; 
             } 
             else 
             {
-                return ["success" => false, "message" => "Image introuvable."];
+                throw new \Exception("Image introuvable.");
             }
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

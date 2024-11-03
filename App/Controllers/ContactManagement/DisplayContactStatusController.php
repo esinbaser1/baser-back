@@ -15,6 +15,14 @@ class DisplayContactStatusController
 
   public function getContactStatus()
   {
-    return $this->model->getContactStatus();
+    try 
+    {
+      $statuses = $this->model->getContactStatus();
+      return ["success" => true, "statuses" => $statuses];
+    }
+    catch (\Exception $e) 
+    {
+      return ["success" => false, "message" => $e->getMessage()];
+    }
   }
 }

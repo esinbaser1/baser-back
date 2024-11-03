@@ -15,6 +15,14 @@ class DisplayStatusController
 
     public function getStatus()
     {
-        return $this->model->getStatus();
+        try 
+        {
+            $statuses = $this->model->getStatus();
+            return ["success" => true, "statuses" => $statuses];
+        }
+        catch(\PDOException $e)
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

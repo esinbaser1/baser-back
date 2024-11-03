@@ -3,6 +3,7 @@
 namespace Models\SocialNetworkManagement;
 
 use App\Database;
+use PDOException;
 
 class AddSocialNetworkModel
 {
@@ -18,12 +19,12 @@ class AddSocialNetworkModel
     {
         if ($this->existsInColumn('platform', $platform)) 
         {
-            return ["success" => false, "message" => "Ce nom de réseau social est déjà utilisé."];
+            throw new \Exception("Ce nom de réseau social est déjà utilisé.");
         }
 
         if ($this->existsInColumn('url', $url)) 
         {
-            return ["success" => false, "message" => "Cette URL est déjà utilisée."];
+            throw new \Exception("Cette URL est déjà utilisée.");
         }
 
         try 
@@ -31,12 +32,12 @@ class AddSocialNetworkModel
             $request = "INSERT INTO social_network (platform, url) VALUES (?, ?)";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$platform, $url]);
-        
-            return ["success" => true, "message" => "Réseau social ajouté avec succès!"];
+
+            return true;
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage()); 
         }
     }
 

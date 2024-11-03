@@ -15,7 +15,6 @@ class ReplyContactController
 
     public function replyContact()
     {
-
         $input = file_get_contents("php://input");
         $data = json_decode($input, true);
 
@@ -28,8 +27,17 @@ class ReplyContactController
             {
                 return ["success" => false, "message" => "Le message de réponse ne peut pas être vide."];
             }
-            return $this->model->sendReply($contactId, $replyMessage);
-        } 
+
+            try 
+            {
+                $this->model->sendReply($contactId, $replyMessage);
+                return ["success" => true, "message" => "Réponse envoyée avec succès."];
+            } 
+            catch (\Exception $e) 
+            {
+                return ["success" => false, "message" => $e->getMessage()];
+            }
+        }
         else 
         {
             return ["success" => false, "message" => "Paramètres manquants."];

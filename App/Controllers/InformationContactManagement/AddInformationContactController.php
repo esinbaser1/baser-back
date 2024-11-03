@@ -21,7 +21,7 @@ class AddInformationContactController
         $mobile = isset($data['mobile']) ? trim(strip_tags($data['mobile'])) : null;
         $email = isset($data['email']) ? trim($data['email']) : null;
         $address = isset($data['address']) ? trim(strip_tags($data['address'])) : null;
-    
+
         if (empty($mobile) && empty($email) && empty($address)) 
         {
             return ["success" => false, "message" => "Au moins un champ doit être rempli."];
@@ -37,6 +37,14 @@ class AddInformationContactController
             return ["success" => false, "message" => "Email invalide."];
         }
 
-        return $this->model->addInformationContact($mobile, $email, $address);
+        try 
+        {
+            $this->model->addInformationContact($mobile, $email, $address);
+            return ["success" => true, "message" => "Information de contact ajoutée avec succès!"];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

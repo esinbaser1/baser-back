@@ -15,6 +15,14 @@ class DisplaySectionController
 
     public function getSections()
     {
-        return $this->model->getSection();
+        try 
+        {
+            $sections = $this->model->getSection();
+            return ["success" => true, "sections" => $sections];
+        }
+        catch(\PDOException $e)
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

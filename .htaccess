@@ -28,7 +28,7 @@ RewriteRule ^addContent$ index.php?action=addContent [L,QSA]
 RewriteRule ^updateContent$ index.php?action=updateContent [L,QSA]
 
 # URL rewriting to delete content
-RewriteRule ^deleteContent$ index.php?action=deleteContent [L,QSA]
+RewriteRule ^deleteContent/([0-9]+)$ index.php?action=deleteContent&id=$1 [L,QSA]
 
 
 # URL rewriting to delete content
@@ -50,7 +50,7 @@ RewriteRule ^status$ index.php?action=status [L,QSA]
 RewriteRule ^image$ index.php?action=image [L,QSA]
 
 # URL rewriting to retrieve image
-RewriteRule ^imageById/([0-9]+)$ index.php?action=imageById&id=$1  [L,QSA]
+RewriteRule ^imageById/([0-9]+)$ index.php?action=imageById&id=$1 [L,QSA]
 
 # URL rewriting to add new image
 RewriteRule ^addImage$ index.php?action=addImage [L,QSA]
@@ -59,7 +59,7 @@ RewriteRule ^addImage$ index.php?action=addImage [L,QSA]
 RewriteRule ^updateImage$ index.php?action=updateImage [L,QSA]
 
 # URL rewriting to delete image
-RewriteRule ^deleteImage$ index.php?action=deleteImage [L,QSA]
+RewriteRule ^deleteImage/([0-9]+)$ index.php?action=deleteImage&id=$1 [L,QSA]
 
 # SOCIAL NETWORK -----------------------------------
 
@@ -67,7 +67,7 @@ RewriteRule ^deleteImage$ index.php?action=deleteImage [L,QSA]
 RewriteRule ^socialNetwork$ index.php?action=socialNetwork [L,QSA]
 
 # URL rewriting to retrieve social network
-RewriteRule ^socialNetworkById/([0-9]+)$ index.php?action=socialNetworkById&id=$1  [L,QSA]
+RewriteRule ^socialNetworkById/([0-9]+)$ index.php?action=socialNetworkById&id=$1 [L,QSA]
 
 # URL rewriting to add new social network
 RewriteRule ^addSocialNetwork$ index.php?action=addSocialNetwork [L,QSA]
@@ -76,7 +76,7 @@ RewriteRule ^addSocialNetwork$ index.php?action=addSocialNetwork [L,QSA]
 RewriteRule ^updateSocialNetwork$ index.php?action=updateSocialNetwork [L,QSA]
 
 # URL rewriting to delete social network
-RewriteRule ^deleteSocialNetwork$ index.php?action=deleteSocialNetwork [L,QSA]
+RewriteRule ^deleteSocialNetwork/([0-9]+)$ index.php?action=deleteSocialNetwork&id=$1 [L,QSA]
 
 # INFORMATION CONTACT -----------------------------------
 
@@ -84,7 +84,7 @@ RewriteRule ^deleteSocialNetwork$ index.php?action=deleteSocialNetwork [L,QSA]
 RewriteRule ^information$ index.php?action=information [L,QSA]
 
 # URL rewriting to retrieve Information
-RewriteRule ^informationById/([0-9]+)$ index.php?action=informationById&id=$1  [L,QSA]
+RewriteRule ^informationById/([0-9]+)$ index.php?action=informationById&id=$1 [L,QSA]
 
 # URL rewriting to add new Information
 RewriteRule ^addInformation$ index.php?action=addInformation [L,QSA]
@@ -93,7 +93,7 @@ RewriteRule ^addInformation$ index.php?action=addInformation [L,QSA]
 RewriteRule ^updateInformation$ index.php?action=updateInformation [L,QSA]
 
 # URL rewriting to delete Information
-RewriteRule ^deleteInformation$ index.php?action=deleteInformation [L,QSA]
+RewriteRule ^deleteInformation/([0-9]+)$ index.php?action=deleteInformation&id=$1 [L,QSA]
 
 # CONTACT -----------------------------------
 
@@ -110,7 +110,7 @@ RewriteRule ^contactTypeOfProject$ index.php?action=contactTypeOfProject [L,QSA]
 RewriteRule ^addContact$ index.php?action=addContact [L,QSA]
 
 # URL rewriting to delete contact
-RewriteRule ^deleteContact$ index.php?action=deleteContact [L,QSA]
+RewriteRule ^deleteContact/([0-9]+)$ index.php?action=deleteContact&id=$1 [L,QSA]
 
 # URL rewriting to reply contact
 RewriteRule ^replyContact$ index.php?action=replyContact [L,QSA]

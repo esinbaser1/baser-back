@@ -10,20 +10,26 @@ class DeleteImageController
 
     public function __construct()
     {
-      $this->model = new DeleteImageModel();
+        $this->model = new DeleteImageModel();
     }
 
     public function deleteImages()
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = isset($data['id']) ? intval($data['id']) : null;
+        $id = isset($_GET['id']) ? strip_tags($_GET['id']) : null;
 
         if (empty($id)) 
         {
             return ["success" => false, "message" => "Id manquant."];
         }
-        return $this->model->deleteImage($id);
+
+        try 
+        {
+            $this->model->deleteImage($id);
+            return ["success" => true, "message" => "Image supprimée avec succès."];
+        } 
+        catch (\Exception $e)
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

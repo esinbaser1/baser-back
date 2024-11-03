@@ -3,6 +3,7 @@
 namespace Models\InformationContactManagement;
 
 use App\Database;
+use PDOException;
 
 class DeleteInformationContactModel
 {
@@ -21,19 +22,12 @@ class DeleteInformationContactModel
             $request = "DELETE FROM information_contact WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-    
-            if ($pdo->rowCount() > 0) 
-            {
-                return ["success" => true, "message" => "Information de contact supprimée avec succès."];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Information de contact introuvable."];
-            }
+
+            return $pdo->rowCount() > 0;
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

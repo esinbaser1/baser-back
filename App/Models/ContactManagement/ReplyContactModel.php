@@ -22,61 +22,61 @@ class ReplyContactModel
         $pdo = $this->db->prepare($request);
         $pdo->execute([$contactId]);
         $contact = $pdo->fetch();
-    
+
         if (!$contact) 
         {
-            return ["success" => false, "message" => "Contact introuvable."];
+            throw new \Exception("Contact introuvable.");
         }
-    
+
         $firstname = $contact['firstname'];
         $lastname = $contact['lastname'];
         $email = $contact['email'];
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
         {
-            return ["success" => false, "message" => "Adresse email invalide."];
+            throw new \Exception("Adresse email invalide.");
         }
 
         // Initialisation de PHPMailer
         $mail = new PHPMailer(true);
-    
+
         try 
         {
             // Configuration du serveur SMTP
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'hokablese@gmail.com'; 
-            $mail->Password   = 'wmkhtcabgwhoqwbh'; 
+            $mail->Username   = 'hokablese@gmail.com';
+            $mail->Password   = 'wmkhtcabgwhoqwbh';
             $mail->SMTPSecure = 'tls';
-            $mail->Port       = 587; 
-            $mail->CharSet    = 'UTF-8'; 
-    
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
+
             // Expéditeur
             $mail->setFrom('hokablese@gmail.com', 'Baser Facade');
-    
+
             // Destinataire
             $mail->addAddress($email, "$firstname $lastname");
-    
+
             // Contenu de l'email
             $mail->isHTML(true);
             $mail->Subject = "Réponse à votre message";
             $mail->Body    = "<p>Bonjour $firstname $lastname,</p><p>$replyMessage</p><p>Cordialement,</p>";
-    
+
             // Envoi de l'email
             $mail->send();
-    
+
             // Mise à jour du statut à "Répondu"
             $this->updateMessageStatus($contactId, 'Répondu');
-    
-            return ["success" => true, "message" => "Réponse envoyée avec succès."];
+
+            return true; // Retourne un succès simple
         } 
         catch (Exception $e) 
         {
-            return ["success" => false, "message" => "Erreur lors de l'envoi du mail : {$mail->ErrorInfo}"];
+            throw new \Exception("Erreur lors de l'envoi du mail : {$mail->ErrorInfo}");
         }
     }
-    
+
     // Fonction pour mettre à jour le statut du message
     public function updateMessageStatus($contactId, $newStatus)
     {

@@ -15,15 +15,27 @@ class DeleteContentController
 
     public function deleteContents()
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
-
-        $id = $data['id'] ?? null;
+        $id = isset($_GET['id']) ? strip_tags($_GET['id']) : null;
 
         if (empty($id)) 
         {
             return ["success" => false, "message" => "Id manquant."];
         }
-        return $this->model->deleteContent($id);
+
+        try {
+            $result = $this->model->deleteContent($id);
+            if($result)
+            {
+                return ["success" => true, "message" => "Contenu supprimé avec succès."];
+            }
+            else
+            {
+                return ["success" => false, "message" => "Contenu introuvable."];
+            }
+        }
+        catch(\PDOException $e)
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

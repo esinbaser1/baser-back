@@ -3,6 +3,7 @@
 namespace Models\SocialNetworkManagement;
 
 use App\Database;
+use PDOException;
 
 class UpdateSocialNetworkModel
 {
@@ -16,31 +17,29 @@ class UpdateSocialNetworkModel
 
     public function updateSocialNetwork($platform, $url, $id)
     {
-        $existingSocialNetworkResult = $this->getSocialNetworkById($id);
+        $existingSocialNetwork = $this->getSocialNetworkById($id);
 
-        if (!$existingSocialNetworkResult['success']) 
+        if (!$existingSocialNetwork) 
         {
-            return $existingSocialNetworkResult;
+            throw new \Exception("Réseau social introuvable.");
         }
-
-        $existingSocialNetwork = $existingSocialNetworkResult['socialNetwork'];
 
         if (
             $platform === $existingSocialNetwork['platform'] &&
             $url === $existingSocialNetwork['url']
         ) 
         {
-            return ["success" => false, "message" => "Aucun changement détecté."];
+            return false; 
         }
 
         if ($this->existsInColumn('platform', $platform, $id)) 
         {
-            return ["success" => false, "message" => "Ce nom de plateforme est déjà utilisé."];
+            throw new \Exception("Ce nom de plateforme est déjà utilisé.");
         }
 
         if ($this->existsInColumn('url', $url, $id)) 
         {
-            return ["success" => false, "message" => "Cette URL est déjà utilisée."];
+            throw new \Exception("Cette URL est déjà utilisée.");
         }
 
         try 
@@ -49,11 +48,11 @@ class UpdateSocialNetworkModel
             $pdo = $this->db->prepare($request);
             $pdo->execute([$platform, $url, $id]);
 
-            return ["success" => true, "message" => "Réseau social mis à jour avec succès!"];
+            return $pdo->rowCount() > 0; 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 
@@ -64,20 +63,11 @@ class UpdateSocialNetworkModel
             $request = "SELECT * FROM social_network WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-            $socialNetwork = $pdo->fetch(\PDO::FETCH_ASSOC);
-
-            if ($socialNetwork) 
-            {
-                return ["success" => true, "socialNetwork" => $socialNetwork];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Réseau social introuvable."];
-            }
+            return $pdo->fetch(\PDO::FETCH_ASSOC); 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 

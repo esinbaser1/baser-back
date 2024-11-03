@@ -18,15 +18,13 @@ class DisplaySectionModel
     {
         try
         {
-            $request = "SELECT * FROM section_image";
+            $request = "SELECT * FROM section";
             $pdo = $this->db->query($request);
-            $section = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-
-            return ["success" => true, "sections" => $section];
+            return $pdo->fetchAll(\PDO::FETCH_ASSOC);
         }
         catch(\PDOException $e)
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

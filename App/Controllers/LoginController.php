@@ -3,14 +3,17 @@
 namespace Controllers;
 
 use Models\LoginModel;
+use Utils\Token;
 
 class LoginController
 {
     protected $model;
+    protected $token;
 
     public function __construct()
     {
         $this->model = new LoginModel();
+        $this->token = new Token();
     }
 
     public function login()
@@ -31,26 +34,33 @@ class LoginController
             return ["success" => false, "message" => "Identifiants incorrects."];
         }
 
-        $user = $this->model->getUserByEmail($email);
-
-        if (!$user || !password_verify($password, $user['password'])) 
+        try 
         {
-            return ["success" => false, "message" => "Identifiants incorrects."];
+            $user = $this->model->getUserByEmail($email);
+
+            if (!$user || !password_verify($password, $user['password'])) 
+            {
+                return ["success" => false, "message" => "Identifiants incorrects."];
+            }
+
+            $token = $this->token->generateToken($user['id'], $user['role']);
+
+            return [
+                "success" => true,
+                "message" => "Connexion réussie.",
+                "role" => $user['role'],
+                "user_id" => $user['id'],
+                "token" => $token
+            ];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
         }
-
-        $token = $this->model->generateToken($user['id'], $user['role']);
-
-        return [
-            "success" => true,
-            "message" => "Connexion réussie.",
-            "role" => $user['role'],
-            "user_id" => $user['id'],
-            "token" => $token
-        ];
     }
 
     public function logout()
     {
-        return $this->model->logout();
+        return ["success" => true, "message" => "Déconnexion réussie."];
     }
 }

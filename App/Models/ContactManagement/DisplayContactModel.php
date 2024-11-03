@@ -3,6 +3,7 @@
 namespace Models\ContactManagement;
 
 use App\Database;
+use PDOException;
 
 class DisplayContactModel 
 {
@@ -24,13 +25,11 @@ class DisplayContactModel
                         JOIN status_contact ON contact.status_id = status_contact.id 
                         WHERE contact.is_archived = 0";
             $pdo = $this->db->query($request);
-            $contact = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-    
-            return ["success" => true, "contact" => $contact];
+            return $pdo->fetchAll(\PDO::FETCH_ASSOC); 
         } 
-        catch (\PDOException) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

@@ -6,15 +6,23 @@ use Models\ImageManagement\DisplayImageModel;
 
 class DisplayImageController
 {
-  protected $model;
+    protected $model;
 
-  public function __construct()
-  {
-    $this->model = new DisplayImageModel();
-  }
+    public function __construct()
+    {
+        $this->model = new DisplayImageModel();
+    }
 
-  public function getImages()
-  {
-    return $this->model->getImage();
-  }
+    public function getImages()
+    {
+        try 
+        {
+            $images = $this->model->getImage();
+            return ["success" => true, "image" => $images];
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
+    }
 }

@@ -20,13 +20,11 @@ class DisplayContactTypeOfProjectModel
         {
             $request="SELECT * FROM type_of_project";
             $pdo = $this->db->query($request);
-            $typeOfProject = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-
-            return ["success" => true, "typeOfProject" => $typeOfProject];
+            return $pdo->fetchAll(\PDO::FETCH_ASSOC);
         }
-        catch(\PDOException)
+        catch(\PDOException $e)
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

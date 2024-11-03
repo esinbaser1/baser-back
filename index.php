@@ -2,7 +2,7 @@
 
 header("Access-Control-Allow-Origin: *"); // a changer
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Content-Type: application/json");
 header("X-Content-Type-Options: nosniff");
 header("X-Frame-Options: DENY");
@@ -15,10 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 const IMG = "assets/img/";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'PUT' || $_SERVER['REQUEST_METHOD'] === 'DELETE') 
+{
     require_once "router.php";
-} else {
-    http_response_code(405); // Méthode non autorisée
+}
+else 
+{
+    http_response_code(405);
     echo json_encode(["success" => false, "message" => "Method not allowed"]);
     exit();
 }

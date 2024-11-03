@@ -23,7 +23,7 @@ class AddContactModel
       $pdo = $this->db->prepare($request);
       $pdo->execute([$firstname, $lastname, $email, $mobile, $city, $message, $typeOfProject, $status, $consent]);
 
-      return ["success" => true, "message" => "Message envoyé avec succès!"];
+      return true;
     } catch (\PDOException $e) {
       return ["success" => false, "message" => "Database error: " . $e->getMessage()];
     }

@@ -15,6 +15,14 @@ class DisplayContentController
 
     public function getContents()
     {
-        return $this->model->getContent();
+        try 
+        {
+            $content = $this->model->getContent();
+            return ["success" => true, "content" => $content];
+        }
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

@@ -32,14 +32,46 @@ class UpdateSocialNetworkController
             return ["success" => false, "message" => "URL invalide."];
         }
 
-        return $this->model->updateSocialNetwork($platform, $url, $id);
+        try 
+        {
+            $updateResult = $this->model->updateSocialNetwork($platform, $url, $id);
+
+            if ($updateResult) 
+            {
+                return ["success" => true, "message" => "Réseau social mis à jour avec succès!"];
+            } 
+            else 
+            {
+                return ["success" => false, "message" => "Aucun changement détecté."];
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 
     public function getSocialNetworkById($id)
     {
-        if (empty($id)) {
+        if (empty($id)) 
+        {
             return ["success" => false, "message" => "ID non fourni"];
         }
-        return $this->model->getSocialNetworkById($id);
+
+        try {
+            $socialNetwork = $this->model->getSocialNetworkById($id);
+            if ($socialNetwork) 
+            {
+                return ["success" => true, "socialNetwork" => $socialNetwork];
+            } 
+            else
+            {
+                return ["success" => false, "message" => "Réseau social introuvable."];
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }

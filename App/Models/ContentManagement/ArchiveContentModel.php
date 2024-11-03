@@ -22,18 +22,11 @@ class ArchiveContentModel
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
 
-            if ($pdo->rowCount() > 0) 
-            {
-                return ["success" => true, "message" => "Message archivé avec succès."];
-            } 
-            else 
-            {
-                return ["success" => false, "message" => "Message introuvable."];
-            }
+            return $pdo->rowCount() > 0;
         } 
         catch (\PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage()); 
         }
     }
 }

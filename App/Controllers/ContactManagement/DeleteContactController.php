@@ -15,16 +15,30 @@ class DeleteContactController
 
     public function deleteContact()
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
 
-        $contactId = isset($data['id']) ? intval($data['id']) : null;
+        $contactId = isset($_GET['id']) ? strip_tags($_GET['id']) : null;
 
         if (empty($contactId)) 
         {
             return ["success" => false, "message" => "Id manquant."];
         }
 
-        return $this->model->deleteContact($contactId);
+       try 
+       {
+        $result = $this->model->deleteContact($contactId);
+
+        if($result)
+        {
+            return ["success" => true, "message" => "Message supprimé avec succès."];
+        }
+        else {
+            return ["success" => false, "message" => "Message introuvable."];
+        }
+
+       }
+       catch(\PDOException $e)
+       {
+        return ["success" => false, "message" => $e->getMessage()];
+       }
     }
 }

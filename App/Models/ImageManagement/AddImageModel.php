@@ -5,6 +5,7 @@ namespace Models\ImageManagement;
 use App\Database;
 use Lib\Slug;
 use Utils\ConvertToWebP;
+use PDOException;
 
 class AddImageModel
 {
@@ -22,7 +23,7 @@ class AddImageModel
     {
         if ($this->nameExist($imageName)) 
         {
-            return ["success" => false, "message" => "Ce nom est déjà utilisé."];
+            throw new \Exception("Ce nom est déjà utilisé.");
         }
 
         // Création du slug pour l'image
@@ -37,7 +38,7 @@ class AddImageModel
         // Déplacement du fichier téléchargé vers le dossier permanent
         if (!move_uploaded_file($imagePath['tmp_name'], $tempImagePath)) 
         {
-            return ["success" => false, "message" => "Échec du transfert du fichier téléchargé."];
+            throw new \Exception("Échec du transfert du fichier téléchargé.");
         }
 
         // Conversion en WebP
@@ -46,7 +47,7 @@ class AddImageModel
 
         if (!$webpImagePath) 
         {
-            return ["success" => false, "message" => "Échec de la conversion de l'image au format WebP."];
+            throw new \Exception("Échec de la conversion de l'image au format WebP.");
         }
 
         // Suppression du fichier temporaire après conversion
@@ -71,7 +72,7 @@ class AddImageModel
 
             if (!rename($webpImagePath, $newWebpImagePath)) 
             {
-                return ["success" => false, "message" => "Échec du renommage de l'image WebP."];
+                throw new \Exception("Échec du renommage de l'image WebP.");
             }
 
             // Mise à jour du chemin de l'image dans la base de données
@@ -79,11 +80,11 @@ class AddImageModel
             $pdo = $this->db->prepare($updateRequest);
             $pdo->execute([$newWebpFileName, $imageId]);
 
-            return ["success" => true, "message" => "Image ajouté avec succès!"];
+            return true; // Indique que l'image a été ajoutée avec succès
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 

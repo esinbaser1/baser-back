@@ -3,6 +3,7 @@
 namespace Models\InformationContactManagement;
 
 use App\Database;
+use PDOException;
 
 class DisplayInformationContactModel
 {
@@ -20,13 +21,11 @@ class DisplayInformationContactModel
         {
             $request = "SELECT * FROM information_contact";
             $pdo = $this->db->query($request);
-            $information = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-
-            return ["success" => true, "information" => $information];
+            return $pdo->fetchAll(\PDO::FETCH_ASSOC); 
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données"];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

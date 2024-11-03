@@ -4,7 +4,7 @@ namespace Controllers\ContactManagement;
 
 use Models\ContactManagement\DisplayContactModel;
 
-class DisplayContactController 
+class DisplayContactController
 {
   protected $model;
 
@@ -15,6 +15,14 @@ class DisplayContactController
 
   public function getContact()
   {
-    return $this->model->getContact();
+    try 
+    {
+      $contact = $this->model->getContact();
+      return ["success" => true, "contact" => $contact];
+    } 
+    catch (\Exception $e) 
+    {
+      return ["success" => false, "message" => $e->getMessage()];
+    }
   }
 }

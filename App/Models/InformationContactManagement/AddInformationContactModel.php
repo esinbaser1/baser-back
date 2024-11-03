@@ -3,6 +3,7 @@
 namespace Models\InformationContactManagement;
 
 use App\Database;
+use PDOException;
 
 class AddInformationContactModel
 {
@@ -21,13 +22,12 @@ class AddInformationContactModel
             $request = "INSERT INTO information_contact (mobile, email, address) VALUES (?, ?, ?)";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$mobile, $email, $address]);
-    
-            return ["success" => true, "message" => "Information de contact ajoutée avec succès!"];
-    
+
+            return true;
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

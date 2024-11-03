@@ -3,6 +3,7 @@
 namespace Models\ImageManagement;
 
 use App\Database;
+use PDOException;
 
 class DisplayImageModel
 {
@@ -18,19 +19,16 @@ class DisplayImageModel
   {
     try 
     {
-      $request = "SELECT image.*, section_image.name AS section_name, section_image.slug AS section_slug 
-            FROM image 
-            JOIN section_image ON image.section_id = section_image.id";
-
+      $request = "SELECT image.*, section.name AS section_name, section.slug AS section_slug 
+                  FROM image 
+                  JOIN section ON image.section_id = section.id";
 
       $pdo = $this->db->query($request);
-      $image = $pdo->fetchAll(\PDO::FETCH_ASSOC);
-
-      return ["success" => true, "image" => $image];
+      return $pdo->fetchAll(\PDO::FETCH_ASSOC);
     } 
-    catch (\PDOException $e) 
+    catch (PDOException $e) 
     {
-      return ["success" => false, "message" => "Erreur de base de données"];
+      throw new \Exception("Erreur de base de données: " . $e->getMessage());
     }
   }
 }

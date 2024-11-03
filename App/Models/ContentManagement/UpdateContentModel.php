@@ -3,6 +3,7 @@
 namespace Models\ContentManagement;
 
 use App\Database;
+use PDOException;
 
 class UpdateContentModel
 {
@@ -18,16 +19,15 @@ class UpdateContentModel
     {
         try 
         {
-            // Mise à jour du contenu seulement si un changement a été détecté
             $request = "UPDATE content SET content = ?, section_id = ?, status_id = ? WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$content, $section, $status, $id]);
 
-            return ["success" => true, "message" => "Contenu mis à jour avec succès!"];
+            return $pdo->rowCount() > 0; // Retourne true si une modification a été effectuée, sinon false
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage()); 
         }
     }
 
@@ -38,14 +38,11 @@ class UpdateContentModel
             $request = "SELECT * FROM content WHERE id = ?";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$id]);
-            $content = $pdo->fetch(\PDO::FETCH_ASSOC);
-
-            return ["success" => true, "content" => $content];
+            return $pdo->fetch(\PDO::FETCH_ASSOC); // Retourne les données ou null si introuvable
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            error_log("Erreur lors de la récupération du contenu: " . $e->getMessage());
-            return ["success" => false, "message" => "Erreur de base de données: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

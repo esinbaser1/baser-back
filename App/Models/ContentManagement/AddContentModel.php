@@ -3,6 +3,7 @@
 namespace Models\ContentManagement;
 
 use App\Database;
+use PDOException;
 
 class AddContentModel
 {
@@ -21,13 +22,12 @@ class AddContentModel
             $request = "INSERT INTO content (content, section_id, status_id) VALUES (?, ?, ?)";
             $pdo = $this->db->prepare($request);
             $pdo->execute([$content, $section, $status]);
-    
-            return ["success" => true, "message" => "Contenu ajouté avec succès!"];
-    
+
+            return true;
         } 
-        catch (\PDOException $e) 
+        catch (PDOException $e) 
         {
-            return ["success" => false, "message" => "Database error: " . $e->getMessage()];
+            throw new \Exception("Erreur de base de données: " . $e->getMessage());
         }
     }
 }

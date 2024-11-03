@@ -15,16 +15,28 @@ class DeleteSocialNetworkController
 
     public function deleteSocialNetwork()
     {
-        $input = file_get_contents("php://input");
-        $data = json_decode($input, true);
+        $id = isset($_GET['id']) ? strip_tags($_GET['id']) : null;
 
-        $id = isset($data['id']) ? intval($data['id']) : null;
-    
         if (empty($id)) 
         {
             return ["success" => false, "message" => "Id manquant."];
         }
 
-        return $this->model->deleteSocialNetwork($id);
+        try 
+        {
+            $result = $this->model->deleteSocialNetwork($id);
+            if ($result) 
+            {
+                return ["success" => true, "message" => "Réseau social supprimé avec succès."];
+            }
+            else 
+            {
+                return ["success" => false, "message" => "Réseau social introuvable."];
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
     }
 }
